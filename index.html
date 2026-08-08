@@ -288,6 +288,26 @@
     box-shadow:0 20px 50px rgba(0,0,0,0.5);
     backdrop-filter:blur(10px);
   }
+  .player.nudge{
+    animation:nudge-pulse 1.6s ease-in-out 4;
+  }
+  @keyframes nudge-pulse{
+    0%, 100%{box-shadow:0 20px 50px rgba(0,0,0,0.5), 0 0 0 0 rgba(0,217,255,0.45);}
+    50%{box-shadow:0 20px 50px rgba(0,0,0,0.5), 0 0 0 10px rgba(0,217,255,0);}
+  }
+  .player-hint{
+    position:absolute; bottom:calc(100% + 10px); right:0;
+    background:var(--cyan); color:var(--base);
+    font-family:var(--mono); font-size:11.5px; font-weight:600;
+    padding:6px 12px; border-radius:8px; white-space:nowrap;
+    opacity:0; transform:translateY(4px); pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .player-hint::after{
+    content:''; position:absolute; top:100%; right:16px;
+    border:5px solid transparent; border-top-color:var(--cyan);
+  }
+  .player.nudge .player-hint{opacity:1; transform:translateY(0);}
   .player-btn{
     width:38px; height:38px; border-radius:50%; flex:none;
     background:var(--cyan); border:none; cursor:pointer;
@@ -530,7 +550,8 @@
 </main>
 
   <div class="player" id="player">
-    <img class="player-cover" src="assets/cover.png" alt="It's Been So Long cover art">
+    <div class="player-hint">🎵 Click to play music</div>
+    <img class="player-cover" src="assets/cover.jpg" alt="It's Been So Long cover art">
     <button class="player-btn" id="playerBtn" aria-label="Play or pause music">
       <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
@@ -599,6 +620,7 @@
     if (audio.paused) {
       audio.play();
       player.classList.add('playing');
+      player.classList.remove('nudge');
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
     } else {
@@ -615,9 +637,11 @@
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
     }).catch(() => {
+      setTimeout(() => player.classList.add('nudge'), 800);
       const resume = () => {
         audio.play();
         player.classList.add('playing');
+        player.classList.remove('nudge');
         playIcon.style.display = 'none';
         pauseIcon.style.display = 'block';
         document.removeEventListener('click', resume);
