@@ -214,6 +214,25 @@
   .about-card p + p{margin-top:12px;}
   .about-card .muted{color:var(--muted);}
 
+  /* SETUP */
+  .spec-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;
+  }
+  .spec-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:20px; display:flex; align-items:center; gap:14px;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .spec-card:hover{border-color:var(--cyan); transform:translateY(-2px);}
+  .spec-icon{
+    width:42px; height:42px; border-radius:8px; flex:none;
+    background:rgba(0,217,255,0.08); border:1px solid rgba(0,217,255,0.3);
+    display:flex; align-items:center; justify-content:center; font-size:19px;
+  }
+  .spec-icon img{width:22px; height:22px; filter:invert(1) brightness(1.5);}
+  .spec-label{font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.05em; text-transform:uppercase;}
+  .spec-value{font-family:var(--display); font-size:15px; font-weight:600; margin-top:2px;}
+
   /* FAVORITE GAME */
   .game-banner{
     position:relative; padding:90px 0; overflow:hidden;
@@ -276,6 +295,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#advancements">Advancements</a></li>
       <li><a href="#stack">Stack</a></li>
+      <li><a href="#setup">My Setup</a></li>
       <li><a href="#favorite-game">Favorite Game</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -383,6 +403,41 @@
     </div>
   </section>
 
+  <section class="section" id="setup">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-label">// rig</div>
+        <h2 class="section-title">My setup</h2>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-card">
+          <div class="spec-icon">🧠</div>
+          <div><div class="spec-label">CPU</div><div class="spec-value">Ryzen 5 5600</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon">🎮</div>
+          <div><div class="spec-label">GPU</div><div class="spec-value">RX 6750 XT</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon">🧩</div>
+          <div><div class="spec-label">RAM</div><div class="spec-value">32GB</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon">💾</div>
+          <div><div class="spec-label">Storage</div><div class="spec-value">1TB NVMe</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon">🖥️</div>
+          <div><div class="spec-label">Monitor</div><div class="spec-value">AOC 27" 1440p 240Hz</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v15/icons/cachyos.svg" alt="CachyOS logo"></div>
+          <div><div class="spec-label">OS</div><div class="spec-value">CachyOS + Windows 11 dual-boot</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="game-banner" id="favorite-game">
     <div class="game-bg"></div>
     <div class="wrap game-inner">
@@ -407,7 +462,7 @@
       </div>
       <div class="about-grid">
         <div class="about-card">
-          <p>Based near Bari, studying at a science-track liceo, mostly just having fun playing games. NeoTech Reborn started as a personal pack and turned into the main project — most weeks split between KubeJS scripting, changelog writing, and keeping the fish shell tooling from getting out of hand.</p>
+          <p>Based near Bari, studying at a science-track liceo, and mostly just having fun playing games. NeoTech Reborn started as a personal pack and turned into the main project — most weeks split between KubeJS scripting, changelog writing, and keeping the fish shell tooling from getting out of hand.</p>
           <p class="muted">Away from the pack: badminton, atmospheric and narrative games, FNAF, fishing games, and a steady rotation of Italian rap — Nayt, Lazza, Gemitaiz, MadMan.</p>
         </div>
       </div>
