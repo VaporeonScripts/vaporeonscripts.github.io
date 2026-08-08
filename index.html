@@ -281,6 +281,43 @@
     .game-poster{max-width:200px; margin:0 auto;}
   }
 
+  .player{
+    position:fixed; bottom:20px; right:20px; z-index:60;
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:12px 16px; display:flex; align-items:center; gap:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.5);
+    backdrop-filter:blur(10px);
+  }
+  .player-btn{
+    width:38px; height:38px; border-radius:50%; flex:none;
+    background:var(--cyan); border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .15s ease;
+  }
+  .player-btn:hover{transform:scale(1.08);}
+  .player-btn svg{width:16px; height:16px; fill:var(--base);}
+  .player-info{display:flex; flex-direction:column; gap:2px;}
+  .player-track{font-family:var(--mono); font-size:12.5px; color:var(--text);}
+  .player-bars{display:flex; align-items:flex-end; gap:2px; height:12px;}
+  .player-bars span{
+    width:3px; background:var(--cyan); border-radius:1px; height:4px;
+    animation:bar 1s ease-in-out infinite;
+    animation-play-state:paused;
+  }
+  .player.playing .player-bars span{animation-play-state:running;}
+  .player-bars span:nth-child(1){animation-delay:0s;}
+  .player-bars span:nth-child(2){animation-delay:.2s;}
+  .player-bars span:nth-child(3){animation-delay:.4s;}
+  .player-bars span:nth-child(4){animation-delay:.1s;}
+  @keyframes bar{
+    0%,100%{height:4px;}
+    50%{height:12px;}
+  }
+  @media (max-width:640px){
+    .player{right:14px; bottom:14px; padding:10px 14px;}
+    .player-track{display:none;}
+  }
+
   /* FOOTER */
   footer{
     border-top:1px solid var(--border); padding:40px 0; margin-top:20px;
@@ -356,7 +393,7 @@
         <div>
           <div class="toast-frame">Challenge complete — NeoTech Reborn</div>
           <div class="toast-title">A 600+ mod NeoForge 1.21.1 pack, built solo</div>
-          <p class="toast-desc">A magic-and-exploration-heavy pack with deep systems to sink into — 400+ custom enchantments, reworked combat, and 15+ custom dimensions to explore.</p>
+          <p class="toast-desc">Custom KubeJS systems, a hand-built advancements theme, InControl spawn tuning, and full localization across 7 languages.</p>
           <div class="toast-meta">
             <span class="chip">NeoForge 1.21.1</span>
             <span class="chip">KubeJS</span>
@@ -481,12 +518,24 @@
       <div class="about-grid">
         <div class="about-card">
           <p>Based near Bari, studying at a science-track liceo, and mostly just having fun playing games. NeoTech Reborn started as a personal pack and turned into the main project — most weeks split between KubeJS scripting, changelog writing, and keeping the fish shell tooling from getting out of hand.</p>
-          <p class="muted">Away from the pack: badminton, atmospheric and narrative games, FNAF, FPS games, and a steady rotation of Italian rap — Nayt, Lazza, Gemitaiz, MadMan.</p>
+          <p class="muted">Away from the pack: badminton, atmospheric and narrative games, FNAF, fishing games, and a steady rotation of Italian rap — Nayt, Lazza, Gemitaiz, MadMan.</p>
         </div>
       </div>
     </div>
   </section>
 </main>
+
+  <div class="player" id="player">
+    <button class="player-btn" id="playerBtn" aria-label="Play or pause music">
+      <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+    </button>
+    <div class="player-info">
+      <div class="player-track">It's Been So Long — The Living Tombstone</div>
+      <div class="player-bars"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <audio id="siteAudio" src="assets/theme.mp3" loop preload="none"></audio>
+  </div>
 
 <footer id="contact">
   <div class="wrap footer-inner">
@@ -534,6 +583,26 @@
     });
   }, { threshold: 0.2 });
   toasts.forEach(t => io.observe(t));
+
+  const audio = document.getElementById('siteAudio');
+  const player = document.getElementById('player');
+  const playerBtn = document.getElementById('playerBtn');
+  const playIcon = document.getElementById('playIcon');
+  const pauseIcon = document.getElementById('pauseIcon');
+
+  playerBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      player.classList.add('playing');
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'block';
+    } else {
+      audio.pause();
+      player.classList.remove('playing');
+      playIcon.style.display = 'block';
+      pauseIcon.style.display = 'none';
+    }
+  });
 </script>
 
 </body>
