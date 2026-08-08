@@ -296,6 +296,10 @@
   }
   .player-btn:hover{transform:scale(1.08);}
   .player-btn svg{width:16px; height:16px; fill:var(--base);}
+  .player-cover{
+    width:38px; height:38px; border-radius:8px; flex:none; object-fit:cover;
+    border:1px solid var(--border);
+  }
   .player-info{display:flex; flex-direction:column; gap:2px;}
   .player-track{font-family:var(--mono); font-size:12.5px; color:var(--text);}
   .player-bars{display:flex; align-items:flex-end; gap:2px; height:12px;}
@@ -526,6 +530,7 @@
 </main>
 
   <div class="player" id="player">
+    <img class="player-cover" src="assets/cover.png" alt="It's Been So Long cover art">
     <button class="player-btn" id="playerBtn" aria-label="Play or pause music">
       <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
