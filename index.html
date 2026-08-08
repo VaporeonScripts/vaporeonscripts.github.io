@@ -534,7 +534,7 @@
       <div class="player-track">It's Been So Long — The Living Tombstone</div>
       <div class="player-bars"><span></span><span></span><span></span><span></span></div>
     </div>
-    <audio id="siteAudio" src="assets/theme.mp3" loop preload="none"></audio>
+    <audio id="siteAudio" src="assets/theme.mp3" loop preload="auto"></audio>
   </div>
 
 <footer id="contact">
@@ -603,6 +603,28 @@
       pauseIcon.style.display = 'none';
     }
   });
+
+  function startPlaying() {
+    audio.play().then(() => {
+      player.classList.add('playing');
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'block';
+    }).catch(() => {
+      const resume = () => {
+        audio.play();
+        player.classList.add('playing');
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        document.removeEventListener('click', resume);
+        document.removeEventListener('keydown', resume);
+        document.removeEventListener('touchstart', resume);
+      };
+      document.addEventListener('click', resume, { once: true });
+      document.addEventListener('keydown', resume, { once: true });
+      document.addEventListener('touchstart', resume, { once: true });
+    });
+  }
+  startPlaying();
 </script>
 
 </body>
