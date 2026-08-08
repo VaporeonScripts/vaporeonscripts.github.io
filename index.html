@@ -288,26 +288,6 @@
     box-shadow:0 20px 50px rgba(0,0,0,0.5);
     backdrop-filter:blur(10px);
   }
-  .player.nudge{
-    animation:nudge-pulse 1.6s ease-in-out 4;
-  }
-  @keyframes nudge-pulse{
-    0%, 100%{box-shadow:0 20px 50px rgba(0,0,0,0.5), 0 0 0 0 rgba(0,217,255,0.45);}
-    50%{box-shadow:0 20px 50px rgba(0,0,0,0.5), 0 0 0 10px rgba(0,217,255,0);}
-  }
-  .player-hint{
-    position:absolute; bottom:calc(100% + 10px); right:0;
-    background:var(--cyan); color:var(--base);
-    font-family:var(--mono); font-size:11.5px; font-weight:600;
-    padding:6px 12px; border-radius:8px; white-space:nowrap;
-    opacity:0; transform:translateY(4px); pointer-events:none;
-    transition:opacity .3s ease, transform .3s ease;
-  }
-  .player-hint::after{
-    content:''; position:absolute; top:100%; right:16px;
-    border:5px solid transparent; border-top-color:var(--cyan);
-  }
-  .player.nudge .player-hint{opacity:1; transform:translateY(0);}
   .player-btn{
     width:38px; height:38px; border-radius:50%; flex:none;
     background:var(--cyan); border:none; cursor:pointer;
@@ -322,6 +302,10 @@
   }
   .player-info{display:flex; flex-direction:column; gap:2px;}
   .player-track{font-family:var(--mono); font-size:12.5px; color:var(--text);}
+  .player-volume{
+    width:60px; height:4px; accent-color:var(--cyan);
+    background:transparent; cursor:pointer; margin-top:3px;
+  }
   .player-bars{display:flex; align-items:flex-end; gap:2px; height:12px;}
   .player-bars span{
     width:3px; background:var(--cyan); border-radius:1px; height:4px;
@@ -340,6 +324,29 @@
   @media (max-width:640px){
     .player{right:14px; bottom:14px; padding:10px 14px;}
     .player-track{display:none;}
+  }
+
+  .entry-gate{
+    position:fixed; inset:0; z-index:200;
+    background:radial-gradient(circle at center, rgba(20,26,34,0.85), rgba(6,8,11,0.97));
+    backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  .entry-gate.hidden{opacity:0; visibility:hidden; pointer-events:none;}
+  .entry-play{
+    width:76px; height:76px; border-radius:50%;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .2s ease, background .2s ease;
+  }
+  .entry-gate:hover .entry-play{transform:scale(1.08); background:rgba(255,255,255,0.14);}
+  .entry-play svg{width:28px; height:28px; fill:#fff; margin-left:4px;}
+  .entry-label{
+    position:absolute; margin-top:120px;
+    font-family:var(--mono); font-size:12px; color:rgba(255,255,255,0.5);
+    letter-spacing:.05em;
   }
 
   /* FOOTER */
@@ -361,6 +368,13 @@
 </style>
 </head>
 <body>
+
+<div class="entry-gate" id="entryGate">
+  <div class="entry-play">
+    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  </div>
+  <div class="entry-label">click to enter</div>
+</div>
 
 <header class="nav">
   <div class="nav-inner">
@@ -417,7 +431,7 @@
         <div>
           <div class="toast-frame">Challenge complete — NeoTech Reborn</div>
           <div class="toast-title">A 600+ mod NeoForge 1.21.1 pack, built solo</div>
-          <p class="toast-desc">A magic-and-exploration-heavy pack with deep systems to sink into — 400+ custom enchantments, reworked combat, and 15+ custom dimensions to explore.</p>
+          <p class="toast-desc">Custom KubeJS systems, a hand-built advancements theme, InControl spawn tuning, and full localization across 7 languages.</p>
           <div class="toast-meta">
             <span class="chip">NeoForge 1.21.1</span>
             <span class="chip">KubeJS</span>
@@ -550,7 +564,6 @@
 </main>
 
   <div class="player" id="player">
-    <div class="player-hint">🎵 Click to play music</div>
     <img class="player-cover" src="assets/cover.jpg" alt="It's Been So Long cover art">
     <button class="player-btn" id="playerBtn" aria-label="Play or pause music">
       <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -559,6 +572,7 @@
     <div class="player-info">
       <div class="player-track">It's Been So Long — The Living Tombstone</div>
       <div class="player-bars"><span></span><span></span><span></span><span></span></div>
+      <input type="range" class="player-volume" id="volumeSlider" min="0" max="1" step="0.01" value="0.85">
     </div>
     <audio id="siteAudio" src="assets/theme.mp3" loop preload="auto"></audio>
   </div>
@@ -620,7 +634,6 @@
     if (audio.paused) {
       audio.play();
       player.classList.add('playing');
-      player.classList.remove('nudge');
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
     } else {
@@ -631,29 +644,22 @@
     }
   });
 
-  function startPlaying() {
+  const volumeSlider = document.getElementById('volumeSlider');
+  audio.volume = parseFloat(volumeSlider.value);
+  volumeSlider.addEventListener('input', () => {
+    audio.volume = parseFloat(volumeSlider.value);
+  });
+
+  const entryGate = document.getElementById('entryGate');
+  entryGate.addEventListener('click', () => {
+    audio.volume = parseFloat(volumeSlider.value);
     audio.play().then(() => {
       player.classList.add('playing');
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
-    }).catch(() => {
-      setTimeout(() => player.classList.add('nudge'), 800);
-      const resume = () => {
-        audio.play();
-        player.classList.add('playing');
-        player.classList.remove('nudge');
-        playIcon.style.display = 'none';
-        pauseIcon.style.display = 'block';
-        document.removeEventListener('click', resume);
-        document.removeEventListener('keydown', resume);
-        document.removeEventListener('touchstart', resume);
-      };
-      document.addEventListener('click', resume, { once: true });
-      document.addEventListener('keydown', resume, { once: true });
-      document.addEventListener('touchstart', resume, { once: true });
-    });
-  }
-  startPlaying();
+    }).catch(() => {});
+    entryGate.classList.add('hidden');
+  }, { once: true });
 </script>
 
 </body>
