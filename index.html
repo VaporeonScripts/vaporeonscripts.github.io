@@ -234,6 +234,18 @@
   .spec-label{font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.05em; text-transform:uppercase;}
   .spec-value{font-family:var(--display); font-size:15px; font-weight:600; margin-top:2px;}
 
+  .rig-gallery{
+    margin-top:20px; display:grid; grid-template-columns:1.3fr 1fr; gap:14px;
+  }
+  .rig-shot{
+    border-radius:10px; overflow:hidden; border:1px solid var(--border);
+    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+  }
+  .rig-shot img{width:100%; display:block;}
+  @media (max-width:640px){
+    .rig-gallery{grid-template-columns:1fr;}
+  }
+
   /* FAVORITE GAME */
   .game-banner{
     position:relative; padding:90px 0; overflow:hidden;
@@ -436,6 +448,10 @@
           <div class="spec-icon"><img src="https://cdn.discordapp.com/icons/862292009423470592/7099999a82bccc10e160724663e38dab.png?size=4096" alt="CachyOS logo" style="filter:none;"></div>
           <div><div class="spec-label">OS</div><div class="spec-value">CachyOS + Windows 11 dual-boot</div></div>
         </div>
+      </div>
+      <div class="rig-gallery">
+        <div class="rig-shot"><img src="assets/wallpaper.png" alt="CachyOS desktop wallpaper and taskbar"></div>
+        <div class="rig-shot"><img src="assets/fastfetch.png" alt="fastfetch system info in Konsole"></div>
       </div>
     </div>
   </section>
