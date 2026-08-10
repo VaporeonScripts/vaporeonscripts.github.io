@@ -24,6 +24,8 @@ Single self-contained `index.html` — no build step, no dependencies beyond Goo
 ├── assets/
 │   ├── wallpaper.png  # desktop screenshot
 │   ├── fastfetch.png  # system info screenshot
+│   ├── cachyos.png     # CachyOS logo
+│   ├── tcoaal.png       # The Coffin of Andy and Leyley cover art
 │   ├── cover.png       # music player cover art
 │   └── theme.mp3        # music player track
 └── README.md
