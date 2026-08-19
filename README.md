@@ -26,6 +26,7 @@ Single self-contained `index.html` — no build step, no dependencies beyond Goo
 │   ├── fastfetch.png  # system info screenshot
 │   ├── cachyos.png     # CachyOS logo
 │   ├── tcoaal.png       # The Coffin of Andy and Leyley cover art
+│   ├── server_logo.png # Hall of Modding Discord server icon
 │   ├── cover.png       # music player cover art
 │   └── theme.mp3        # music player track
 └── README.md
