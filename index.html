@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>kurotsuki — modpack dev &amp; tool builder</title>
+<title>kurotsuki</title>
 <meta name="description" content="Federico (kurotsuki) — developer of NeoTech Reborn and Pack Commit.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,6 +117,20 @@
   .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,217,255,0.25);}
   .btn-ghost{border:1px solid var(--border); color:var(--text);}
   .btn-ghost:hover{border-color:var(--cyan); color:var(--cyan); transform:translateY(-2px);}
+
+  .discord-card{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:9px 16px 9px 9px; border-radius:10px;
+    background:rgba(88,101,242,0.1); border:1px solid rgba(88,101,242,0.35);
+    text-decoration:none; transition:transform .15s ease, background .15s ease;
+  }
+  .discord-card:hover{transform:translateY(-2px); background:rgba(88,101,242,0.16);}
+  .discord-card img{
+    width:34px; height:34px; border-radius:8px; flex:none; object-fit:cover;
+  }
+  .discord-card-text{display:flex; flex-direction:column; line-height:1.25;}
+  .discord-card-title{font-family:var(--display); font-weight:600; font-size:13.5px; color:var(--text);}
+  .discord-card-sub{font-family:var(--mono); font-size:10.5px; color:#8891f2;}
 
   /* TERMINAL */
   .terminal{
@@ -305,6 +319,13 @@
   .player-info{display:flex; flex-direction:column; gap:4px;}
   .player-track{font-family:var(--mono); font-size:12.5px; color:var(--text);}
   .volume-row{display:flex; align-items:center; gap:8px; position:relative;}
+  .mute-btn{
+    background:none; border:none; cursor:pointer; padding:0;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--muted); transition:color .15s ease; flex:none;
+  }
+  .mute-btn:hover{color:var(--cyan);}
+  .mute-btn svg{width:15px; height:15px;}
   .player-volume{
     -webkit-appearance:none; appearance:none;
     width:110px; height:4px; border-radius:2px;
@@ -423,7 +444,13 @@
     <p class="lede">Solo developer on NeoTech Reborn, a 600+ mod NeoForge pack with 20,000+ downloads. Off the pack, I write fish shell tooling to keep the whole thing from falling apart.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/VaporeonScripts" target="_blank" rel="noopener">View GitHub</a>
-      <a class="btn btn-ghost" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">Join the Discord</a>
+      <a class="discord-card" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">
+        <img src="assets/server_logo.png" alt="Hall of Modding server icon">
+        <div class="discord-card-text">
+          <span class="discord-card-title">Hall of Modding</span>
+          <span class="discord-card-sub">Join the community →</span>
+        </div>
+      </a>
       <a class="btn btn-ghost" href="https://www.instagram.com/fede_disciglio_y3p/" target="_blank" rel="noopener">Instagram</a>
     </div>
 
@@ -464,7 +491,7 @@
           </div>
           <div style="margin-top:12px;"><img src="https://cf.way2muchnoise.eu/full_1118358_downloads.svg?badge_style=for_the_badge" alt="NeoTech Reborn live download count" style="height:26px;"></div>
           <a class="toast-link" href="https://www.curseforge.com/minecraft/modpacks/neotech-reborn" target="_blank" rel="noopener">View on CurseForge →</a>
-          <div class="note-line">Backed by a live Discord community and a dedicated hosted server for players.</div>
+          <div class="note-line">Backed by Hall of Modding, a Discord community with dev updates, changelogs, and support.</div>
         </div>
       </div>
 
@@ -545,7 +572,7 @@
           <div><div class="spec-label">Monitor</div><div class="spec-value">AOC 27" 1440p 240Hz</div></div>
         </div>
         <div class="spec-card">
-          <div class="spec-icon"><img src="assets/cachyos.png" alt="CachyOS logo" style="filter:none;"></div>
+          <div class="spec-icon"><a href="https://cachyos.org/" target="_blank" rel="noopener"><img src="assets/cachyos.png" alt="CachyOS logo" style="filter:none;"></a></div>
           <div><div class="spec-label">OS</div><div class="spec-value">CachyOS + Windows 11 dual-boot</div></div>
         </div>
       </div>
@@ -598,6 +625,10 @@
       <div class="player-track">It's Been So Long — The Living Tombstone</div>
       <div class="player-bars"><span></span><span></span><span></span><span></span></div>
       <div class="volume-row">
+        <button class="mute-btn" id="muteBtn" aria-label="Mute or unmute">
+          <svg id="volIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.74 2.5-2.26 2.5-4.02z"/><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          <svg id="muteIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.42.05-.63z"/><path d="M19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71z"/><path d="M4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>
+        </button>
         <input type="range" class="player-volume" id="volumeSlider" min="0" max="1" step="0.01" value="0.85">
         <span class="volume-pct" id="volumePct">85%</span>
       </div>
@@ -646,7 +677,8 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('in');
-        io.unobserve(entry.target);
+      } else {
+        entry.target.classList.remove('in');
       }
     });
   }, { threshold: 0.2 });
@@ -683,8 +715,28 @@
   updateVolumeUI();
   volumeSlider.addEventListener('input', () => {
     audio.volume = parseFloat(volumeSlider.value);
+    audio.muted = false;
     updateVolumeUI();
+    updateMuteIcon();
   });
+
+  const muteBtn = document.getElementById('muteBtn');
+  const volIcon = document.getElementById('volIcon');
+  const muteIcon = document.getElementById('muteIcon');
+  function updateMuteIcon() {
+    if (audio.muted || audio.volume === 0) {
+      volIcon.style.display = 'none';
+      muteIcon.style.display = 'block';
+    } else {
+      volIcon.style.display = 'block';
+      muteIcon.style.display = 'none';
+    }
+  }
+  muteBtn.addEventListener('click', () => {
+    audio.muted = !audio.muted;
+    updateMuteIcon();
+  });
+  updateMuteIcon();
 
   const entryGate = document.getElementById('entryGate');
   entryGate.addEventListener('click', () => {
