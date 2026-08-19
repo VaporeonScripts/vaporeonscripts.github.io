@@ -14,7 +14,7 @@ Single self-contained `index.html` — no build step, no dependencies beyond Goo
 - **My Setup** — hardware/OS specs plus a small desktop rice showcase
 - **Favorite Game** — a dedicated banner section for *The Coffin of Andy and Leyley*
 - **About** — short bio
-- **Floating music player** — click-to-enter gate, volume control, autoplay-safe.
+- **Floating music player** — click-to-enter gate, volume control, autoplay-safe
 
 ## Structure
 
