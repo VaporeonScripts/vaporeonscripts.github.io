@@ -9,7 +9,7 @@ Single self-contained `index.html` — no build step, no dependencies beyond Goo
 - **Hero** — fish shell terminal intro
 - **Advancements** — project showcase styled after the [Lucid Advancements](https://www.curseforge.com/minecraft/modpacks/neotech-reborn) theme (task / goal / challenge tiers):
   - [NeoTech Reborn](https://www.curseforge.com/minecraft/modpacks/neotech-reborn) — a magic-and-exploration-heavy NeoForge 1.21.1 modpack with deep systems to sink into: 400+ custom enchantments, reworked combat, and 15+ custom dimensions to explore. Live download count pulled from [way2muchnoise](https://www.curseforge.com/minecraft/modpacks/neotech-reborn).
-  - [Pack Commit](https://github.com/VaporeonScripts/pack-commit) — a ~1,200-line fish shell tool for modpack sync and git, vibe coded with Claude
+  - [Pack Commit](https://github.com/VaporeonScripts/pack-commit) — a ~1,300-line fish shell tool for modpack sync and git, vibe coded with Claude
   - Italian translation work on *The Coffin of Andy and Leyley*
 - **My Setup** — hardware/OS specs plus a small desktop rice showcase
 - **Favorite Game** — a dedicated banner section for *The Coffin of Andy and Leyley*
