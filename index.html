@@ -7,21 +7,20 @@
 <meta name="description" content="Federico (kurotsuki) — developer of NeoTech Reborn and Pack Commit.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --base:#16181C;
-    --panel:#2B2D31;
-    --panel-2:#232529;
-    --bevel-lt:#46484E;
-    --bevel-dk:#151619;
+    --base:#000000;
+    --glass:rgba(255,255,255,0.055);
+    --glass-hover:rgba(255,255,255,0.09);
+    --glass-border:rgba(255,255,255,0.12);
     --cyan:#00D9FF;
     --amber:#FFB347;
     --green:#00D9AA;
-    --text:#E8E6E1;
-    --muted:#9A9CA3;
-    --display:'Instrument Sans', sans-serif;
-    --mono:'JetBrains Mono', monospace;
+    --text:#F5F6F7;
+    --muted:#9BA1AB;
+    --display:'Space Grotesk', sans-serif;
+    --body:'DM Sans', sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -29,389 +28,307 @@
     html{scroll-behavior:auto;}
     *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
   }
-  body{
-    background:var(--base); color:var(--text); font-family:var(--display);
-    line-height:1.6;
-  }
+  body{background:var(--base); color:var(--text); font-family:var(--body); line-height:1.6; overflow-x:hidden;}
   a{color:inherit;}
-  ::selection{background:var(--cyan); color:var(--base);}
+  ::selection{background:var(--cyan); color:#000;}
   :focus-visible{outline:2px solid var(--cyan); outline-offset:3px;}
-  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px;}
   body.gate-open{overflow:hidden; height:100vh;}
+  svg{flex:none;}
 
-  /* BEVEL PANEL — the core recurring device */
-  .bevel{
-    background:var(--panel);
-    border-top:2px solid var(--bevel-lt);
-    border-left:2px solid var(--bevel-lt);
-    border-bottom:2px solid var(--bevel-dk);
-    border-right:2px solid var(--bevel-dk);
-    border-radius:0;
-  }
-  .bevel-in{
-    background:var(--panel-2);
-    border-top:2px solid var(--bevel-dk);
-    border-left:2px solid var(--bevel-dk);
-    border-bottom:2px solid var(--bevel-lt);
-    border-right:2px solid var(--bevel-lt);
-    border-radius:0;
+  /* GRADIENT MESH BACKGROUND */
+  .mesh{position:fixed; inset:0; z-index:-1; overflow:hidden; background:var(--base);}
+  .blob{position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:screen; opacity:.55;}
+  .blob-cyan{width:52vw; height:52vw; background:var(--cyan); top:-15%; left:-10%; animation:float1 26s ease-in-out infinite;}
+  .blob-green{width:46vw; height:46vw; background:var(--green); top:30%; right:-15%; animation:float2 32s ease-in-out infinite;}
+  .blob-amber{width:40vw; height:40vw; background:var(--amber); bottom:-10%; left:20%; animation:float3 38s ease-in-out infinite;}
+  @keyframes float1{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(8%,10%) scale(1.15);}}
+  @keyframes float2{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-10%,-6%) scale(0.9);}}
+  @keyframes float3{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(6%,-8%) scale(1.1);}}
+
+  /* GLASS PRIMITIVE */
+  .glass{
+    background:var(--glass);
+    backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--glass-border);
+    border-radius:18px;
   }
 
   /* ENTRY GATE */
   .entry-gate{
     position:fixed; inset:0; z-index:200;
-    background:radial-gradient(circle at center, rgba(30,33,38,0.9), rgba(8,9,11,0.98));
+    background:rgba(0,0,0,0.75); backdrop-filter:blur(30px);
     display:flex; align-items:center; justify-content:center; cursor:pointer;
     transition:opacity .5s ease, visibility .5s ease;
   }
   .entry-gate.hidden{opacity:0; visibility:hidden; pointer-events:none;}
   .entry-play{
-    width:74px; height:74px; display:flex; align-items:center; justify-content:center;
+    width:84px; height:84px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--glass); border:1px solid var(--glass-border); transition:transform .2s ease;
   }
-  .entry-play svg{width:30px; height:30px; fill:#fff;}
-  .entry-label{position:absolute; margin-top:110px; font-family:var(--mono); font-size:11.5px; color:rgba(255,255,255,0.45); letter-spacing:.05em;}
+  .entry-gate:hover .entry-play{transform:scale(1.08);}
+  .entry-play svg{width:30px; height:30px; fill:#fff; margin-left:4px;}
+  .entry-label{position:absolute; margin-top:120px; font-family:var(--body); font-size:12px; color:rgba(255,255,255,0.5); letter-spacing:.04em;}
 
-  /* TITLE SCREEN HERO */
-  .title-hero{
-    min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:60px 24px; position:relative;
-    background:
-      radial-gradient(circle at 30% 20%, rgba(0,217,255,0.22), transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(0,217,170,0.18), transparent 50%),
-      radial-gradient(circle at 50% 100%, rgba(255,179,71,0.1), transparent 60%);
+  /* NAVBAR */
+  .navbar{
+    position:fixed; top:18px; left:50%; transform:translateX(-50%); z-index:80;
+    display:flex; align-items:center; gap:6px; padding:8px 8px 8px 18px;
+    max-width:calc(100% - 32px);
   }
-  #advancements{background:radial-gradient(circle at 20% 0%, rgba(0,217,255,0.06), transparent 55%);}
-  #setup{background:radial-gradient(circle at 80% 20%, rgba(0,217,170,0.06), transparent 55%);}
-  #about{background:radial-gradient(circle at 30% 100%, rgba(255,179,71,0.05), transparent 55%);}
-  .title-wrap{position:relative; text-align:center; margin-bottom:56px;}
-  .game-title{
-    font-family:var(--display); font-weight:700; font-size:clamp(42px,9vw,84px);
-    letter-spacing:-.02em; color:var(--text);
+  .nav-logo{font-family:var(--display); font-weight:700; font-size:15px; margin-right:8px; white-space:nowrap;}
+  .nav-links{display:flex; gap:2px;}
+  .nav-links a{
+    font-family:var(--body); font-weight:500; font-size:13.5px; text-decoration:none; color:var(--muted);
+    padding:8px 12px; border-radius:12px; transition:color .15s ease, background .15s ease;
+    white-space:nowrap;
   }
-  .splash{
-    position:absolute; top:-6px; right:-34px; transform:rotate(-14deg);
-    font-family:var(--display); font-style:italic; font-weight:600; font-size:13px;
-    color:#FFE066; animation:splash-bounce 1.1s ease-in-out infinite;
+  .nav-links a:hover{color:var(--text); background:var(--glass-hover);}
+  .nav-discord{
+    display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:12px;
+    background:linear-gradient(135deg, rgba(88,101,242,0.35), rgba(88,101,242,0.15));
+    text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap;
   }
-  @keyframes splash-bounce{
-    0%,100%{transform:rotate(-14deg) scale(1);}
-    50%{transform:rotate(-14deg) scale(1.12);}
+  .nav-discord img{width:16px; height:16px; border-radius:4px;}
+  @media (max-width:760px){
+    .nav-links{display:none;}
+    .navbar{padding:8px 8px 8px 14px;}
   }
-  .title-sub{
-    margin-top:14px; color:var(--muted); font-size:15px; max-width:440px;
-    margin-left:auto; margin-right:auto;
-  }
-  .menu-list{display:flex; flex-direction:column; gap:10px; width:100%; max-width:340px;}
-  .menu-btn{
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    padding:14px 20px; font-family:var(--display); font-weight:600; font-size:14.5px;
-    color:var(--text); text-decoration:none; cursor:pointer;
-    transition:transform .08s ease, background .12s ease;
-  }
-  .menu-btn:hover{background:#34363b; transform:translateY(-1px);}
-  .menu-btn:active{transform:translateY(1px);
-    border-top:2px solid var(--bevel-dk); border-left:2px solid var(--bevel-dk);
-    border-bottom:2px solid var(--bevel-lt); border-right:2px solid var(--bevel-lt);
-  }
-  .menu-btn.discord{background:rgba(88,101,242,0.14);}
-  .menu-btn.discord:hover{background:rgba(88,101,242,0.22);}
-  .menu-btn img{width:20px; height:20px; flex:none; object-fit:cover;}
-  .menu-btn{border-left:4px solid var(--accent, transparent);}
-  .menu-btn.acc-cyan{--accent:var(--cyan); background:rgba(0,217,255,0.07);}
-  .menu-btn.acc-cyan:hover{background:rgba(0,217,255,0.14);}
-  .menu-btn.acc-green{--accent:var(--green); background:rgba(0,217,170,0.07);}
-  .menu-btn.acc-green:hover{background:rgba(0,217,170,0.14);}
-  .menu-btn.acc-amber{--accent:var(--amber); background:rgba(255,179,71,0.07);}
-  .menu-btn.acc-amber:hover{background:rgba(255,179,71,0.14);}
-  .menu-btn .btn-icon{font-size:16px;}
 
-  .corner-tag{
-    position:absolute; font-family:var(--mono); font-size:10.5px; color:rgba(255,255,255,0.28);
+  /* HERO */
+  .hero{
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:120px 24px 60px; position:relative;
   }
-  .corner-tl{top:16px; left:20px;}
-  .corner-br{bottom:16px; right:20px;}
+  .hero-tag{
+    font-family:var(--body); font-size:12.5px; color:var(--muted); padding:7px 14px; border-radius:20px;
+    margin-bottom:26px; display:inline-flex; align-items:center; gap:8px;
+  }
+  .hero-tag .dot{width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green);}
+  .hero h1{
+    font-family:var(--display); font-weight:700; font-size:clamp(40px,8vw,76px); line-height:1.04; letter-spacing:-.02em;
+    background:linear-gradient(100deg, var(--cyan), var(--green) 45%, var(--amber) 85%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    max-width:780px;
+  }
+  .hero p{margin-top:22px; color:var(--muted); font-size:17px; max-width:520px;}
+  .hero-ctas{margin-top:36px; display:flex; gap:14px; flex-wrap:wrap; justify-content:center;}
+  .cta{
+    padding:13px 24px; border-radius:14px; font-family:var(--body); font-weight:600; font-size:14.5px;
+    text-decoration:none; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .cta-primary{background:var(--text); color:#000;}
+  .cta-primary:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(255,255,255,0.15);}
+  .cta-ghost{background:var(--glass); border:1px solid var(--glass-border); color:var(--text);}
+  .cta-ghost:hover{background:var(--glass-hover); transform:translateY(-2px);}
 
   /* SECTIONS */
-  .section{padding:80px 0;}
-  .section-title{font-family:var(--display); font-weight:700; font-size:clamp(26px,4vw,34px); margin-bottom:34px;}
+  .section{padding:100px 0;}
+  .section-head{margin-bottom:44px;}
+  .section-eyebrow{font-family:var(--body); font-size:12.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; margin-bottom:10px;}
+  .eyebrow-cyan{color:var(--cyan);} .eyebrow-green{color:var(--green);} .eyebrow-amber{color:var(--amber);}
+  .section-title{font-family:var(--display); font-weight:700; font-size:clamp(26px,4vw,36px);}
 
-  /* ADVANCEMENT TREE */
-  .tree-canvas{padding:30px 20px;}
-  .tree-root{display:flex; align-items:flex-start; gap:0; margin-bottom:70px; flex-wrap:wrap;}
-  .tree-root:last-child{margin-bottom:0;}
-  .tree-connector{
-    width:56px; height:3px; flex:none; position:relative;
-    background:var(--bevel-lt); overflow:hidden;
-    margin-top:34px;
-  }
-  .tree-connector span{
-    position:absolute; inset:0; background:var(--cyan); transform:scaleX(0); transform-origin:left;
-    transition:transform .8s ease;
-  }
-  .tree-root.in .tree-connector span{transform:scaleX(1);}
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
 
-  .node{position:relative; flex:none;}
-  .node-frame{
-    width:72px; height:72px; display:flex; align-items:center; justify-content:center;
-    font-size:0; position:relative; cursor:pointer;
-    box-shadow:0 0 20px var(--frame-glow, transparent);
+  /* ADVANCEMENT CARDS (bento) */
+  .cards-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
+  .card{padding:26px; transition:transform .2s ease, background .2s ease, box-shadow .2s ease;}
+  .card:hover{transform:translateY(-4px); background:var(--glass-hover); box-shadow:0 20px 50px rgba(0,0,0,0.4);}
+  .card-top{display:flex; align-items:center; gap:14px; margin-bottom:16px;}
+  .card-icon{
+    width:46px; height:46px; border-radius:12px; flex:none; display:flex; align-items:center; justify-content:center;
+    background:var(--glass-hover); border:1px solid var(--glass-border);
   }
-  .node-frame .emoji{font-size:30px;}
-  .frame-task .node-frame{--frame-glow:rgba(0,217,255,0.35);}
-  .frame-goal .node-frame{--frame-glow:rgba(255,179,71,0.35);}
-  .frame-challenge .node-frame{--frame-glow:rgba(0,217,170,0.35);}
-  .node-frame img{width:78%; height:78%; object-fit:cover;}
-  .frame-task .node-frame{
-    background:var(--panel-2);
-    clip-path:polygon(10% 0,90% 0,100% 10%,100% 90%,90% 100%,10% 100%,0 90%,0 10%);
-    border:2px solid var(--cyan);
+  .card-icon img{width:100%; height:100%; object-fit:cover; border-radius:12px;}
+  .card-icon svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.6;}
+  .icon-cyan{color:var(--cyan);} .icon-green{color:var(--green);} .icon-amber{color:var(--amber);}
+  .card-titles{display:flex; flex-direction:column;}
+  .card-title{font-family:var(--display); font-weight:700; font-size:16.5px;}
+  .card-badge{
+    font-family:var(--body); font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    padding:2px 8px; border-radius:20px; display:inline-block; margin-top:4px; width:fit-content;
   }
-  .frame-goal .node-frame{
-    background:var(--panel-2); border-radius:50%; border:2px solid var(--amber);
-  }
-  .frame-goal .node-frame img{border-radius:50%;}
-  .frame-challenge .node-frame{
-    background:var(--panel-2);
-    clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    border:2px solid var(--green);
-  }
-  .frame-locked .node-frame{background:var(--panel-2); border:2px dashed var(--muted); opacity:.55;}
-  .frame-locked .node-label{color:var(--muted);}
-  .frame-locked .node-detail{opacity:.7;}
-  .node-label{
-    font-family:var(--display); font-weight:600; font-size:13px; text-align:center;
-    margin-top:10px; max-width:110px;
-  }
-  .frame-task .node-label{color:var(--cyan);}
-  .frame-goal .node-label{color:var(--amber);}
-  .frame-challenge .node-label{color:var(--green);}
+  .badge-cyan{background:rgba(0,217,255,0.15); color:var(--cyan);}
+  .badge-green{background:rgba(0,217,170,0.15); color:var(--green);}
+  .badge-amber{background:rgba(255,179,71,0.15); color:var(--amber);}
+  .card p{color:var(--muted); font-size:14px; margin-bottom:14px;}
+  .card-badge-dl{height:22px; display:block; margin-bottom:12px;}
+  .card-link{font-family:var(--body); font-weight:600; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:5px;}
+  .card.ghost{display:flex; align-items:center; justify-content:center; border-style:dashed; opacity:.7;}
+  .card.ghost p{margin:0; text-align:center;}
+  @media (max-width:700px){.cards-grid{grid-template-columns:1fr;}}
 
-  .node{display:flex; flex-direction:column; align-items:center;}
-  .node-detail{
-    width:230px; margin-top:16px; padding:16px; text-align:left;
-  }
-  .node-detail-title{font-family:var(--display); font-weight:700; font-size:14.5px; margin-bottom:6px;}
-  .node-detail p{color:var(--muted); font-size:13px; margin-bottom:10px;}
-  .node-detail-link{font-family:var(--mono); font-size:12px; text-decoration:none;}
-  .frame-task .node-detail-link{color:var(--cyan);}
-  .frame-goal .node-detail-link{color:var(--amber);}
-  .frame-challenge .node-detail-link{color:var(--green);}
-  .node-detail img.dl-badge{height:22px; margin-top:8px; display:block;}
+  /* SETUP */
+  .spec-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-bottom:20px;}
+  .spec-card{padding:18px; display:flex; align-items:center; gap:14px;}
+  .spec-icon{width:40px; height:40px; border-radius:11px; flex:none; display:flex; align-items:center; justify-content:center; background:var(--glass-hover); border:1px solid var(--glass-border);}
+  .spec-icon svg{width:19px; height:19px; stroke:var(--cyan); fill:none; stroke-width:1.6;}
+  .spec-label{font-family:var(--body); font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em;}
+  .spec-value{font-family:var(--display); font-size:14.5px; font-weight:600;}
+  .spec-value a{color:inherit; text-decoration:underline; text-decoration-color:var(--muted);}
+  .rig-gallery{display:grid; grid-template-columns:1fr; gap:14px;}
+  .rig-shot{overflow:hidden; padding:6px;}
+  .rig-shot img{width:100%; display:block; border-radius:12px;}
 
-  @media (max-width:640px){
-    .node-detail{width:100%;}
-    .node{width:100%; margin-bottom:20px;}
-  }
+  /* HOTBAR */
+  .hotbar{display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:10px; margin-bottom:20px;}
+  .hotbar-slot{padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:8px; transition:background .15s ease, transform .15s ease;}
+  .hotbar-slot:hover{background:var(--glass-hover); transform:translateY(-2px);}
+  .hotbar-slot svg{width:20px; height:20px; stroke:var(--green); fill:none; stroke-width:1.6;}
+  .hotbar-slot .label{font-family:var(--body); font-size:10.5px; color:var(--muted); text-align:center; line-height:1.25;}
 
-  /* HOTBAR (stack) */
-  .hotbar{display:grid; grid-template-columns:repeat(auto-fill,minmax(84px,1fr)); gap:6px;}
-  .hotbar-slot{
-    aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:6px; padding:8px;
-  }
-  .hotbar-slot .icon{font-size:20px;}
-  .hotbar-slot .label{font-family:var(--display); font-size:10.5px; color:var(--muted); text-align:center; line-height:1.25;}
-
-  /* SETUP — F3 debug panel */
-  .f3-panel{padding:22px 26px; font-family:var(--mono); font-size:13px; line-height:1.85;}
-  .f3-panel .row{display:flex; gap:8px;}
-  .f3-panel .k{color:var(--cyan); flex:none; width:80px;}
-  .f3-panel .v{color:var(--text);}
-  .f3-panel .v a{color:inherit; text-decoration:underline; text-decoration-color:var(--muted);}
-
-  .rig-gallery{margin-top:16px; display:grid; grid-template-columns:1fr; gap:12px;}
-  .rig-shot img{width:100%; display:block;}
-
-  /* FAVORITE GAME — polaroid */
+  /* FAVORITE GAME (kept) */
   .game-banner{position:relative; padding:100px 0; overflow:hidden;}
-  .game-bg{
-    position:absolute; inset:0; z-index:0;
-    background-image:url('assets/tcoaal.png');
-    background-size:cover; background-position:center 20%;
-    filter:blur(20px) brightness(.3) saturate(1.05); transform:scale(1.15);
-  }
+  .game-bg{position:absolute; inset:0; z-index:0; background-image:url('assets/tcoaal.png'); background-size:cover; background-position:center 20%; filter:blur(20px) brightness(.3) saturate(1.1); transform:scale(1.15);}
   .game-inner{position:relative; z-index:1; display:grid; grid-template-columns:230px 1fr; gap:50px; align-items:center;}
-  .polaroid{
-    background:#EDE8DD; padding:12px 12px 34px; transform:rotate(-4deg);
-    box-shadow:0 30px 60px rgba(0,0,0,.55);
-  }
+  .polaroid{background:#EDE8DD; padding:12px 12px 34px; transform:rotate(-4deg); box-shadow:0 30px 60px rgba(0,0,0,.55);}
   .polaroid img{width:100%; display:block;}
-  .game-text .kicker{font-family:var(--mono); font-size:11.5px; color:var(--amber); margin-bottom:10px;}
+  .game-text .kicker{font-family:var(--body); font-size:11.5px; font-weight:600; color:var(--amber); margin-bottom:10px; text-transform:uppercase; letter-spacing:.05em;}
   .game-title-h{font-family:var(--display); font-weight:700; font-size:clamp(24px,4vw,32px); margin-bottom:14px;}
   .game-text p{color:#C9C7C1; font-size:15px; max-width:560px;}
   .game-text p + p{margin-top:12px;}
   .game-text .hl{color:var(--amber);}
-  .game-text a{font-family:var(--mono); font-size:12px; color:var(--amber); display:inline-block; margin-top:12px; text-decoration:underline;}
-  @media (max-width:640px){
-    .game-inner{grid-template-columns:1fr; text-align:center;}
-    .polaroid{max-width:220px; margin:0 auto;}
-  }
+  .game-text a{font-family:var(--body); font-weight:600; font-size:13px; color:var(--amber); display:inline-block; margin-top:14px; text-decoration:none;}
+  .game-text a:hover{text-decoration:underline;}
+  @media (max-width:640px){.game-inner{grid-template-columns:1fr; text-align:center;} .polaroid{max-width:220px; margin:0 auto;}}
 
   /* ABOUT */
-  .about-panel{padding:28px;}
+  .about-panel{padding:30px;}
   .about-panel p{font-size:15px;}
   .about-panel p + p{margin-top:12px; color:var(--muted);}
 
-  /* FLOATING MENU (post-hero nav) */
-  .menu-toggle{
-    position:fixed; top:20px; left:20px; z-index:60;
-    width:42px; height:42px; display:flex; align-items:center; justify-content:center;
-    cursor:pointer; opacity:0; visibility:hidden; transition:opacity .25s ease;
-  }
-  .menu-toggle.show{opacity:1; visibility:visible;}
-  .menu-toggle svg{width:18px; height:18px; fill:var(--text);}
-  .menu-drop{
-    position:fixed; top:70px; left:20px; z-index:60; padding:10px; display:none; flex-direction:column; gap:6px;
-    min-width:180px;
-  }
-  .menu-drop.open{display:flex;}
-  .menu-drop a{
-    font-family:var(--display); font-weight:600; font-size:13.5px; color:var(--text); text-decoration:none;
-    padding:8px 10px;
-  }
-  .menu-drop a:hover{background:var(--panel-2);}
-
   /* MUSIC PLAYER */
   .player{
-    position:fixed; bottom:20px; right:20px; z-index:60; padding:12px 16px;
+    position:fixed; bottom:20px; right:20px; z-index:60; padding:10px 16px 10px 10px;
     display:flex; align-items:center; gap:12px;
   }
+  .player-cover{width:42px; height:42px; border-radius:11px; object-fit:cover; flex:none;}
   .player-btn{
-    width:38px; height:38px; flex:none; background:var(--cyan); border:none; cursor:pointer;
+    width:36px; height:36px; border-radius:50%; flex:none; border:none; cursor:pointer;
+    background:linear-gradient(135deg, var(--cyan), var(--green));
     display:flex; align-items:center; justify-content:center;
   }
-  .player-btn svg{width:16px; height:16px; fill:var(--base);}
-  .player-cover{width:38px; height:38px; flex:none; object-fit:cover;}
+  .player-btn svg{width:14px; height:14px; fill:#000;}
   .player-info{display:flex; flex-direction:column; gap:4px;}
-  .player-track{font-family:var(--mono); font-size:12px; color:var(--text);}
-  .player-bars{display:flex; align-items:flex-end; gap:2px; height:12px; transform:scaleY(var(--vol-scale,1)); transform-origin:bottom; transition:transform .15s ease;}
-  .player-bars span{width:3px; background:var(--cyan); height:4px; animation:bar 1s ease-in-out infinite; animation-play-state:paused;}
-  .player.playing .player-bars span{animation-play-state:running;}
-  .player.playing.muted .player-bars span{animation-play-state:paused;}
-  .player-bars span:nth-child(1){animation-delay:0s;}
-  .player-bars span:nth-child(2){animation-delay:.2s;}
-  .player-bars span:nth-child(3){animation-delay:.4s;}
-  .player-bars span:nth-child(4){animation-delay:.1s;}
-  @keyframes bar{0%,100%{height:4px;} 50%{height:12px;}}
-  .volume-row{display:flex; align-items:center; gap:8px;}
+  .player-track{font-family:var(--body); font-size:12px; font-weight:600; color:var(--text);}
+  .player-bars{display:flex; align-items:flex-end; gap:2px; height:14px;}
+  .player-bars span{width:3px; border-radius:2px; background:linear-gradient(180deg, var(--cyan), var(--green)); height:3px; transition:height .08s ease;}
+  .volume-row{display:flex; align-items:center; gap:7px;}
   .mute-btn{background:none; border:none; cursor:pointer; padding:0; display:flex; color:var(--muted);}
   .mute-btn:hover{color:var(--cyan);}
-  .mute-btn svg{width:15px; height:15px;}
-  .player-volume{-webkit-appearance:none; appearance:none; width:100px; height:4px; background:linear-gradient(to right, var(--cyan) 85%, var(--bevel-dk) 85%); cursor:pointer;}
-  .player-volume::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:12px; height:12px; background:var(--cyan); cursor:pointer;}
-  .player-volume::-moz-range-thumb{width:12px; height:12px; background:var(--cyan); cursor:pointer; border:none;}
+  .mute-btn svg{width:14px; height:14px;}
+  .player-volume{-webkit-appearance:none; appearance:none; width:80px; height:3px; border-radius:2px; background:linear-gradient(to right, var(--cyan) 85%, rgba(255,255,255,0.15) 85%); cursor:pointer;}
+  .player-volume::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:11px; height:11px; border-radius:50%; background:var(--cyan); cursor:pointer;}
+  .player-volume::-moz-range-thumb{width:11px; height:11px; border-radius:50%; background:var(--cyan); cursor:pointer; border:none;}
   .player.muted .player-volume::-webkit-slider-thumb{background:var(--muted);}
   .player.muted .player-volume::-moz-range-thumb{background:var(--muted);}
-  .volume-pct{font-family:var(--mono); font-size:10px; color:var(--muted); min-width:28px; text-align:right;}
+  .volume-pct{font-family:var(--body); font-size:10px; color:var(--muted); min-width:26px; text-align:right;}
   @media (max-width:640px){.player-track{display:none;}}
 
   /* FOOTER */
   footer{padding:50px 0 150px;}
   .footer-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
-  .footer-slots{display:flex; gap:10px;}
-  .footer-slot{width:44px; height:44px; display:flex; align-items:center; justify-content:center; text-decoration:none; color:var(--muted);}
-  .footer-slot:hover{color:var(--cyan);}
-  .footer-slot svg{width:18px; height:18px;}
-  .copyright{font-family:var(--mono); font-size:11.5px; color:var(--muted);}
+  .footer-slots{display:flex; gap:8px;}
+  .footer-slot{width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; text-decoration:none; color:var(--muted); transition:color .15s ease, background .15s ease;}
+  .footer-slot:hover{color:var(--cyan); background:var(--glass-hover);}
+  .footer-slot svg{width:17px; height:17px;}
+  .copyright{font-family:var(--body); font-size:12px; color:var(--muted);}
 </style>
 </head>
 <body class="gate-open">
+
+<div class="mesh">
+  <div class="blob blob-cyan"></div>
+  <div class="blob blob-green"></div>
+  <div class="blob blob-amber"></div>
+</div>
 
 <div class="entry-gate" id="entryGate">
   <div class="entry-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
   <div class="entry-label">click to enter</div>
 </div>
 
-<button class="menu-toggle bevel" id="menuToggle" aria-label="Menu">
-  <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
-</button>
-<div class="menu-drop bevel" id="menuDrop">
-  <a href="#top">Home</a>
-  <a href="#advancements">Advancements</a>
-  <a href="#setup">My Setup</a>
-  <a href="#favorite-game">Favorite Game</a>
-  <a href="#about">About</a>
-</div>
+<nav class="navbar glass">
+  <span class="nav-logo">kurotsuki</span>
+  <div class="nav-links">
+    <a href="#advancements">Advancements</a>
+    <a href="#setup">My Setup</a>
+    <a href="#favorite-game">Favorite Game</a>
+    <a href="#about">About</a>
+  </div>
+  <a class="nav-discord" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">
+    <img src="assets/server_logo.png" alt="">Hall of Modding
+  </a>
+</nav>
 
 <main id="top">
-  <section class="title-hero">
-    <div class="corner-tag corner-tl">kurotsuki.dev</div>
-    <div class="corner-tag corner-br">v1.0 — vaporeonscripts</div>
-    <div class="title-wrap">
-      <h1 class="game-title">kurotsuki</h1>
-      <div class="splash">vibe coded!</div>
-      <p class="title-sub">Federico — modpack developer, tool builder. Creator of NeoTech Reborn and Pack Commit.</p>
-    </div>
-    <div class="menu-list">
-      <a class="menu-btn bevel acc-cyan" href="#advancements"><span class="btn-icon">🏆</span>Advancements</a>
-      <a class="menu-btn bevel acc-green" href="#setup"><span class="btn-icon">🖥️</span>My Setup</a>
-      <a class="menu-btn bevel acc-amber" href="#favorite-game"><span class="btn-icon">📖</span>Favorite Game</a>
-      <a class="menu-btn bevel" href="#about"><span class="btn-icon">👤</span>About</a>
-      <a class="menu-btn bevel discord" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">
-        <img src="assets/server_logo.png" alt="">Hall of Modding
-      </a>
+  <section class="hero">
+    <div class="hero-tag glass"><span class="dot"></span>Actively building NeoTech Reborn</div>
+    <h1>Federico builds modpacks and the tools that hold them together.</h1>
+    <p>Solo developer on NeoTech Reborn. Off the pack, I write fish shell tooling to keep the whole thing from falling apart.</p>
+    <div class="hero-ctas">
+      <a class="cta cta-primary" href="https://github.com/VaporeonScripts" target="_blank" rel="noopener">View GitHub</a>
+      <a class="cta cta-ghost" href="https://www.instagram.com/fede_disciglio_y3p/" target="_blank" rel="noopener">Instagram</a>
     </div>
   </section>
 
   <section class="section" id="advancements">
     <div class="wrap">
-      <h2 class="section-title">Advancements</h2>
+      <div class="section-head reveal">
+        <div class="section-eyebrow eyebrow-cyan">Projects</div>
+        <h2 class="section-title">Advancements</h2>
+      </div>
 
-      <div class="tree-canvas">
-        <div class="tree-root">
-          <div class="node frame-challenge">
-            <div class="node-frame"><img src="https://media.forgecdn.net/avatars/thumbnails/1135/584/256/256/638696980042288408.png" alt=""></div>
-            <div class="node-label">NeoTech Reborn</div>
-            <div class="node-detail bevel">
-              <div class="node-detail-title">Challenge complete</div>
-              <p>A magic-and-exploration-heavy pack with deep systems to sink into — 400+ custom enchantments, reworked combat, and 15+ custom dimensions to explore.</p>
-              <img class="dl-badge" src="https://cf.way2muchnoise.eu/full_1118358_downloads.svg?badge_style=for_the_badge" alt="live download count">
-              <br><a class="node-detail-link" href="https://www.curseforge.com/minecraft/modpacks/neotech-reborn" target="_blank" rel="noopener">View on CurseForge</a>
+      <div class="cards-grid">
+        <div class="card glass reveal">
+          <div class="card-top">
+            <div class="card-icon"><img src="https://media.forgecdn.net/avatars/thumbnails/1135/584/256/256/638696980042288408.png" alt=""></div>
+            <div class="card-titles">
+              <span class="card-title">NeoTech Reborn</span>
+              <span class="card-badge badge-green">Challenge</span>
             </div>
           </div>
-          <div class="tree-connector"><span></span></div>
-          <div class="node frame-task">
-            <div class="node-frame"><span class="emoji">🐟</span></div>
-            <div class="node-label">Pack Commit</div>
-            <div class="node-detail bevel">
-              <div class="node-detail-title">Advancement made</div>
-              <p>A ~1,300-line fish shell tool for modpack sync and git, vibe coded with Claude. Multi-commit splitting, undo/amend/skip, safe rebase pulls, and changelog-driven GitHub releases.</p>
-              <a class="node-detail-link" href="https://github.com/VaporeonScripts/pack-commit" target="_blank" rel="noopener">View on GitHub</a>
-            </div>
-          </div>
-          <div class="tree-connector"><span></span></div>
-          <div class="node frame-locked">
-            <div class="node-frame"><span class="emoji">❓</span></div>
-            <div class="node-label">???</div>
-            <div class="node-detail bevel">
-              <div class="node-detail-title">Locked</div>
-              <p>More advancements coming as the pack grows.</p>
-            </div>
-          </div>
+          <p>A magic-and-exploration-heavy pack with deep systems to sink into — 400+ custom enchantments, reworked combat, and 15+ custom dimensions to explore.</p>
+          <img class="card-badge-dl" src="https://cf.way2muchnoise.eu/full_1118358_downloads.svg?badge_style=for_the_badge" alt="live download count">
+          <a class="card-link icon-green" href="https://www.curseforge.com/minecraft/modpacks/neotech-reborn" target="_blank" rel="noopener">View on CurseForge →</a>
         </div>
 
-        <div class="tree-root">
-          <div class="node frame-goal">
-            <div class="node-frame"><span class="emoji">📖</span></div>
-            <div class="node-label">Andy &amp; Leyley Translation</div>
-            <div class="node-detail bevel">
-              <div class="node-detail-title">Goal reached</div>
-              <p>Part of the Italian translation team for The Coffin of Andy and Leyley, running grammar and orthography passes on the full script.</p>
-              <a class="node-detail-link" href="https://steamcommunity.com/app/2378900/discussions/2/594022969417677218/" target="_blank" rel="noopener">Translation thread</a>
+        <div class="card glass reveal">
+          <div class="card-top">
+            <div class="card-icon icon-cyan"><svg viewBox="0 0 24 24"><path d="M3 12c3-4 8-6 13-4 2 .8 3 2.3 3 4s-1 3.2-3 4c-5 2-10 0-13-4Z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="11" r=".6" fill="currentColor" stroke="none"/><path d="M19 12l2.5-2.2v4.4L19 12Z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="card-titles">
+              <span class="card-title">Pack Commit</span>
+              <span class="card-badge badge-cyan">Tool</span>
             </div>
           </div>
+          <p>A ~1,300-line fish shell tool for modpack sync and git, vibe coded with Claude. Multi-commit splitting, undo/amend/skip, safe rebase pulls, and changelog-driven GitHub releases.</p>
+          <a class="card-link icon-cyan" href="https://github.com/VaporeonScripts/pack-commit" target="_blank" rel="noopener">View on GitHub →</a>
         </div>
 
-        <div class="tree-root">
-          <div class="node frame-task">
-            <div class="node-frame"><img src="assets/server_logo.png" alt=""></div>
-            <div class="node-label">Hall of Modding</div>
-            <div class="node-detail bevel">
-              <div class="node-detail-title">Advancement made</div>
-              <p>A Discord community built around the pack — dev updates, changelogs, support, and a genuinely chill crowd.</p>
-              <a class="node-detail-link" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">Join the server</a>
+        <div class="card glass reveal">
+          <div class="card-top">
+            <div class="card-icon icon-amber"><svg viewBox="0 0 24 24"><path d="M12 6.5c-1.5-1-4-1.5-6-1v13c2-.5 4.5 0 6 1 1.5-1 4-1.5 6-1v-13c-2-.5-4.5 0-6 1Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6.5v13" stroke-linecap="round"/></svg></div>
+            <div class="card-titles">
+              <span class="card-title">Andy &amp; Leyley Translation</span>
+              <span class="card-badge badge-amber">Localization</span>
             </div>
           </div>
+          <p>Part of the Italian translation team for The Coffin of Andy and Leyley, running grammar and orthography passes on the full script.</p>
+          <a class="card-link icon-amber" href="https://steamcommunity.com/app/2378900/discussions/2/594022969417677218/" target="_blank" rel="noopener">Translation thread →</a>
+        </div>
+
+        <div class="card glass reveal">
+          <div class="card-top">
+            <div class="card-icon"><img src="assets/server_logo.png" alt=""></div>
+            <div class="card-titles">
+              <span class="card-title">Hall of Modding</span>
+              <span class="card-badge badge-cyan">Community</span>
+            </div>
+          </div>
+          <p>A Discord community built around the pack — dev updates, changelogs, support, and a genuinely chill crowd.</p>
+          <a class="card-link icon-cyan" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">Join the server →</a>
         </div>
       </div>
     </div>
@@ -419,43 +336,63 @@
 
   <section class="section" id="setup">
     <div class="wrap">
-      <h2 class="section-title">My Setup</h2>
-      <div class="f3-panel bevel-in">
-        <div class="row"><span class="k">CPU</span><span class="v">Ryzen 5 5600</span></div>
-        <div class="row"><span class="k">GPU</span><span class="v">RX 6750 XT</span></div>
-        <div class="row"><span class="k">RAM</span><span class="v">32GB</span></div>
-        <div class="row"><span class="k">Storage</span><span class="v">1TB NVMe</span></div>
-        <div class="row"><span class="k">Monitor</span><span class="v">AOC 27" 1440p 240Hz</span></div>
-        <div class="row"><span class="k">OS</span><span class="v"><a href="https://cachyos.org/" target="_blank" rel="noopener">CachyOS</a> + Windows 11 dual-boot</span></div>
+      <div class="section-head reveal">
+        <div class="section-eyebrow eyebrow-green">Hardware &amp; software</div>
+        <h2 class="section-title">My Setup</h2>
       </div>
 
-      <div style="margin:34px 0 18px;">
-        <div class="hotbar">
-          <div class="hotbar-slot bevel"><span class="icon">🐟</span><span class="label">fish shell</span></div>
-          <div class="hotbar-slot bevel"><span class="icon">📦</span><span class="label">KubeJS</span></div>
-          <div class="hotbar-slot bevel"><span class="icon">⚒️</span><span class="label">NeoForge</span></div>
-          <div class="hotbar-slot bevel"><span class="icon">🔀</span><span class="label">Git</span></div>
-          <div class="hotbar-slot bevel"><span class="icon">🧩</span><span class="label">KDE Plasma</span></div>
-          <div class="hotbar-slot bevel"><span class="icon">🚀</span><span class="label">Prism Launcher</span></div>
-          <div class="hotbar-slot bevel"><span class="icon">⚙️</span><span class="label">GitHub Actions</span></div>
+      <div class="spec-grid reveal">
+        <div class="spec-card glass">
+          <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></div>
+          <div><div class="spec-label">CPU</div><div class="spec-value">Ryzen 5 5600</div></div>
+        </div>
+        <div class="spec-card glass">
+          <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="10" rx="1.5"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/></svg></div>
+          <div><div class="spec-label">GPU</div><div class="spec-value">RX 6750 XT</div></div>
+        </div>
+        <div class="spec-card glass">
+          <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="6" rx="1.5"/><path d="M7 9v6M11 9v6M15 9v6"/></svg></div>
+          <div><div class="spec-label">RAM</div><div class="spec-value">32GB</div></div>
+        </div>
+        <div class="spec-card glass">
+          <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div><div class="spec-label">Storage</div><div class="spec-value">1TB NVMe</div></div>
+        </div>
+        <div class="spec-card glass">
+          <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg></div>
+          <div><div class="spec-label">Monitor</div><div class="spec-value">AOC 27" 1440p 240Hz</div></div>
+        </div>
+        <div class="spec-card glass">
+          <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></div>
+          <div><div class="spec-label">OS</div><div class="spec-value"><a href="https://cachyos.org/" target="_blank" rel="noopener">CachyOS</a> + Win11</div></div>
         </div>
       </div>
 
-      <div class="rig-gallery">
-        <div class="rig-shot bevel"><img src="assets/wallpaper.png" alt="CachyOS desktop wallpaper and taskbar"></div>
-        <div class="rig-shot bevel"><img src="assets/fastfetch.png" alt="fastfetch system info in Konsole"></div>
+      <div class="hotbar reveal">
+        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M3 12c3-4 8-6 13-4 2 .8 3 2.3 3 4s-1 3.2-3 4c-5 2-10 0-13-4Z"/></svg><span class="label">fish shell</span></div>
+        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="M4.5 7.5 12 12l7.5-4.5M12 12v9"/></svg><span class="label">KubeJS</span></div>
+        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2-2 2.3-2.3Z"/></svg><span class="label">NeoForge</span></div>
+        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="10" r="2"/><path d="M6 8v8M6 12c0-3 4-4 10-4"/></svg><span class="label">Git</span></div>
+        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/></svg><span class="label">KDE Plasma</span></div>
+        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M12 2c3 2 5 6 5 10 0 2-1 4-2 5l-1-3-2 2-2-2-1 3c-1-1-2-3-2-5 0-4 2-8 5-10Z"/><circle cx="12" cy="10" r="1.4"/></svg><span class="label">Prism Launcher</span></div>
+        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5"/><path d="M20 9a8 8 0 0 0-14.9-3M4 15a8 8 0 0 0 14.9 3"/></svg><span class="label">GitHub Actions</span></div>
+      </div>
+
+      <div class="rig-gallery reveal">
+        <div class="rig-shot glass"><img src="assets/wallpaper.png" alt="CachyOS desktop wallpaper and taskbar"></div>
+        <div class="rig-shot glass"><img src="assets/fastfetch.png" alt="fastfetch system info in Konsole"></div>
       </div>
     </div>
   </section>
 
   <section class="game-banner" id="favorite-game">
     <div class="game-bg"></div>
-    <div class="wrap game-inner">
+    <div class="wrap game-inner reveal">
       <div class="polaroid">
         <img src="assets/tcoaal.png" alt="The Coffin of Andy and Leyley cover art">
       </div>
       <div class="game-text">
-        <div class="kicker">// favorite game</div>
+        <div class="kicker">Favorite game</div>
         <h2 class="game-title-h">The Coffin of Andy and Leyley</h2>
         <p>This one's not just a favorite, it properly got under my skin. It's the kind of story that gets its hooks in you and doesn't let go, especially with how far each choice can send the siblings' arc.</p>
         <p>I cared enough about it to join the <span class="hl">Italian translation team</span>, going line by line through the script to get the tone right for readers back home.</p>
@@ -466,8 +403,11 @@
 
   <section class="section" id="about">
     <div class="wrap">
-      <h2 class="section-title">About</h2>
-      <div class="about-panel bevel-in">
+      <div class="section-head reveal">
+        <div class="section-eyebrow eyebrow-amber">Who's behind this</div>
+        <h2 class="section-title">About</h2>
+      </div>
+      <div class="about-panel glass reveal">
         <p>Based near Bari, studying at a science-track liceo, and mostly just having fun playing games. NeoTech Reborn started as a personal pack and turned into the main project — most weeks split between KubeJS scripting, changelog writing, and keeping the fish shell tooling from getting out of hand.</p>
         <p>Away from the pack: badminton, atmospheric and narrative games, FNAF, fishing games, and a steady rotation of Italian rap — Nayt, Lazza, Gemitaiz, MadMan.</p>
       </div>
@@ -475,7 +415,7 @@
   </section>
 </main>
 
-<div class="player bevel" id="player">
+<div class="player glass" id="player">
   <img class="player-cover" src="assets/cover.png" alt="It's Been So Long cover art">
   <button class="player-btn" id="playerBtn" aria-label="Play or pause music">
     <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -483,7 +423,7 @@
   </button>
   <div class="player-info">
     <div class="player-track">It's Been So Long — The Living Tombstone</div>
-    <div class="player-bars"><span></span><span></span><span></span><span></span></div>
+    <div class="player-bars"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="volume-row">
       <button class="mute-btn" id="muteBtn" aria-label="Mute or unmute">
         <svg id="volIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.74 2.5-2.26 2.5-4.02z"/><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
@@ -494,23 +434,23 @@
       <span class="volume-pct" id="volumePct">85%</span>
     </div>
   </div>
-  <audio id="siteAudio" src="assets/theme.mp3" loop preload="auto"></audio>
+  <audio id="siteAudio" src="assets/theme.mp3" loop preload="auto" crossorigin="anonymous"></audio>
 </div>
 
 <footer id="contact">
   <div class="wrap footer-inner">
     <span class="copyright">Kurotsuki © 2026</span>
     <div class="footer-slots">
-      <a class="footer-slot bevel" href="https://github.com/VaporeonScripts" target="_blank" rel="noopener" aria-label="GitHub">
+      <a class="footer-slot glass" href="https://github.com/VaporeonScripts" target="_blank" rel="noopener" aria-label="GitHub">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-1.94c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.07.78 2.16v3.2c0 .3.21.66.79.55A10.51 10.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
       </a>
-      <a class="footer-slot bevel" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener" aria-label="Discord">
+      <a class="footer-slot glass" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener" aria-label="Discord">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.8 19.8 0 0 0-4.885-1.515.07.07 0 0 0-.075.037c-.21.375-.444.864-.608 1.25a18.3 18.3 0 0 0-5.487 0 12.6 12.6 0 0 0-.617-1.25.077.077 0 0 0-.076-.037A19.7 19.7 0 0 0 3.68 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.073.073 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.076.076 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.9 19.9 0 0 0 6.002-3.03.077.077 0 0 0 .032-.057c.5-5.177-.838-9.674-3.548-13.66a.06.06 0 0 0-.031-.028ZM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.955 2.418-2.157 2.418Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"/></svg>
       </a>
-      <a class="footer-slot bevel" href="https://www.instagram.com/fede_disciglio_y3p/" target="_blank" rel="noopener" aria-label="Instagram">
+      <a class="footer-slot glass" href="https://www.instagram.com/fede_disciglio_y3p/" target="_blank" rel="noopener" aria-label="Instagram">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
       </a>
-      <a class="footer-slot bevel" href="https://www.curseforge.com/minecraft/modpacks/neotech-reborn" target="_blank" rel="noopener" aria-label="CurseForge">
+      <a class="footer-slot glass" href="https://www.curseforge.com/minecraft/modpacks/neotech-reborn" target="_blank" rel="noopener" aria-label="CurseForge">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.326 9.2145S23.2261 8.4418 24 6.1882h-7.5066V4.4H0l2.0318 2.3576V9.173s5.1267-.2665 7.1098 1.2372c2.7146 2.516-3.053 5.917-3.053 5.917L5.0995 19.6c1.5465-1.4726 4.494-3.3775 9.8983-3.2857-2.0565.65-4.1245 1.6651-5.7344 3.2857h10.9248l-1.0288-3.2726s-7.918-4.6688-.8336-7.1127z"/></svg>
       </a>
     </div>
@@ -518,20 +458,11 @@
 </footer>
 
 <script>
-  const menuToggle = document.getElementById('menuToggle');
-  const menuDrop = document.getElementById('menuDrop');
-  menuToggle.addEventListener('click', () => menuDrop.classList.toggle('open'));
-  menuDrop.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menuDrop.classList.remove('open')));
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > window.innerHeight * 0.7) menuToggle.classList.add('show');
-    else { menuToggle.classList.remove('show'); menuDrop.classList.remove('open'); }
-  });
-
-  const roots = document.querySelectorAll('.tree-root');
+  const reveals = document.querySelectorAll('.reveal');
   const rio = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-  }, { threshold: 0.3 });
-  roots.forEach(r => rio.observe(r));
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => rio.observe(el));
 
   const audio = document.getElementById('siteAudio');
   const player = document.getElementById('player');
@@ -542,12 +473,10 @@
   playerBtn.addEventListener('click', () => {
     if (audio.paused) {
       audio.play();
-      player.classList.add('playing');
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
     } else {
       audio.pause();
-      player.classList.remove('playing');
       playIcon.style.display = 'block';
       pauseIcon.style.display = 'none';
     }
@@ -560,8 +489,7 @@
     const pct = Math.round(vol * 100);
     volumePct.textContent = pct + '%';
     const trackColor = audio.muted ? 'var(--muted)' : 'var(--cyan)';
-    volumeSlider.style.background = `linear-gradient(to right, ${trackColor} ${pct}%, var(--bevel-dk) ${pct}%)`;
-    player.style.setProperty('--vol-scale', Math.max(0.25, vol));
+    volumeSlider.style.background = `linear-gradient(to right, ${trackColor} ${pct}%, rgba(255,255,255,0.15) ${pct}%)`;
   }
   audio.volume = parseFloat(volumeSlider.value);
   updateVolumeUI();
@@ -578,9 +506,7 @@
   const volLowIcon = document.getElementById('volLowIcon');
   const muteIcon = document.getElementById('muteIcon');
   function updateMuteIcon() {
-    volIcon.style.display = 'none';
-    volLowIcon.style.display = 'none';
-    muteIcon.style.display = 'none';
+    volIcon.style.display = 'none'; volLowIcon.style.display = 'none'; muteIcon.style.display = 'none';
     if (audio.muted || audio.volume === 0) muteIcon.style.display = 'block';
     else if (audio.volume < 0.5) volLowIcon.style.display = 'block';
     else volIcon.style.display = 'block';
@@ -588,16 +514,41 @@
   muteBtn.addEventListener('click', () => {
     audio.muted = !audio.muted;
     player.classList.toggle('muted', audio.muted);
-    updateMuteIcon();
-    updateVolumeUI();
+    updateMuteIcon(); updateVolumeUI();
   });
   updateMuteIcon();
 
+  /* Real-time audio-reactive visualizer bars via Web Audio API */
+  const bars = document.querySelectorAll('.player-bars span');
+  let audioCtx, analyser, dataArray, sourceNode;
+  function setupAnalyser() {
+    if (audioCtx) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    sourceNode = audioCtx.createMediaElementSource(audio);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 64;
+    sourceNode.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+    renderBars();
+  }
+  function renderBars() {
+    requestAnimationFrame(renderBars);
+    if (!analyser || audio.paused) return;
+    analyser.getByteFrequencyData(dataArray);
+    bars.forEach((bar, i) => {
+      const idx = Math.floor((i / bars.length) * dataArray.length * 0.6) + 1;
+      const v = dataArray[idx] / 255;
+      bar.style.height = (3 + v * 15) + 'px';
+    });
+  }
+
   const entryGate = document.getElementById('entryGate');
   entryGate.addEventListener('click', () => {
+    setupAnalyser();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     audio.volume = parseFloat(volumeSlider.value);
     audio.play().then(() => {
-      player.classList.add('playing');
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
     }).catch(() => {});
