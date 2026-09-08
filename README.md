@@ -6,15 +6,15 @@ Single self-contained `index.html` — no build step, no dependencies beyond Goo
 
 ## What's on it
 
-- **Hero** — fish shell terminal intro
-- **Advancements** — project showcase styled after the custom Lucid Advancements theme built for NeoTech Reborn (task / goal / challenge tiers):
+- **Hero** — gradient headline over an animated color-shifting background mesh
+- **Advancements** — project showcase as a glassmorphic card grid:
   - [NeoTech Reborn](https://www.curseforge.com/minecraft/modpacks/neotech-reborn) — a magic-and-exploration-heavy NeoForge 1.21.1 modpack with deep systems to sink into: 400+ custom enchantments, reworked combat, and 15+ custom dimensions to explore. Live download count pulled from [way2muchnoise](https://www.curseforge.com/minecraft/modpacks/neotech-reborn).
   - [Pack Commit](https://github.com/VaporeonScripts/pack-commit) — a ~1,300-line fish shell tool for modpack sync and git, vibe coded with Claude
   - Italian translation work on *The Coffin of Andy and Leyley*
 - **My Setup** — hardware/OS specs plus a small desktop rice showcase
 - **Favorite Game** — a dedicated banner section for *The Coffin of Andy and Leyley*
 - **About** — short bio
-- **Floating music player** — click-to-enter gate, volume control, autoplay-safe
+- **Floating music player** — click-to-enter gate, volume control, real-time audio-reactive visualizer bars (Web Audio API)
 
 ## Structure
 
@@ -24,7 +24,6 @@ Single self-contained `index.html` — no build step, no dependencies beyond Goo
 ├── assets/
 │   ├── wallpaper.png  # desktop screenshot
 │   ├── fastfetch.png  # system info screenshot
-│   ├── cachyos.png     # CachyOS logo
 │   ├── tcoaal.png       # The Coffin of Andy and Leyley cover art
 │   ├── server_logo.png # Hall of Modding Discord server icon
 │   ├── cover.png       # music player cover art
