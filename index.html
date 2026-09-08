@@ -130,8 +130,25 @@
   .eyebrow-cyan{color:var(--cyan);} .eyebrow-green{color:var(--green);} .eyebrow-amber{color:var(--amber);}
   .section-title{font-family:var(--display); font-weight:700; font-size:clamp(26px,4vw,36px);}
 
-  .reveal{opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease;}
-  .reveal.in{opacity:1; transform:translateY(0);}
+  .reveal{opacity:0; transform:translateY(16px) scale(.98); transition:opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1);}
+  .reveal.in{opacity:1; transform:translateY(0) scale(1);}
+  .card.reveal:nth-child(1){transition-delay:0s;}
+  .card.reveal:nth-child(2){transition-delay:.08s;}
+  .card.reveal:nth-child(3){transition-delay:.16s;}
+  .card.reveal:nth-child(4){transition-delay:.24s;}
+  .spec-card.reveal:nth-child(1){transition-delay:0s;}
+  .spec-card.reveal:nth-child(2){transition-delay:.05s;}
+  .spec-card.reveal:nth-child(3){transition-delay:.1s;}
+  .spec-card.reveal:nth-child(4){transition-delay:.15s;}
+  .spec-card.reveal:nth-child(5){transition-delay:.2s;}
+  .spec-card.reveal:nth-child(6){transition-delay:.25s;}
+  .hotbar-slot.reveal:nth-child(1){transition-delay:0s;}
+  .hotbar-slot.reveal:nth-child(2){transition-delay:.04s;}
+  .hotbar-slot.reveal:nth-child(3){transition-delay:.08s;}
+  .hotbar-slot.reveal:nth-child(4){transition-delay:.12s;}
+  .hotbar-slot.reveal:nth-child(5){transition-delay:.16s;}
+  .hotbar-slot.reveal:nth-child(6){transition-delay:.2s;}
+  .hotbar-slot.reveal:nth-child(7){transition-delay:.24s;}
 
   /* ADVANCEMENT CARDS (bento) */
   .cards-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
@@ -342,41 +359,41 @@
         <h2 class="section-title">My Setup</h2>
       </div>
 
-      <div class="spec-grid reveal">
-        <div class="spec-card glass">
+      <div class="spec-grid">
+        <div class="spec-card glass reveal">
           <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></div>
           <div><div class="spec-label">CPU</div><div class="spec-value">Ryzen 5 5600</div></div>
         </div>
-        <div class="spec-card glass">
+        <div class="spec-card glass reveal">
           <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="10" rx="1.5"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/></svg></div>
           <div><div class="spec-label">GPU</div><div class="spec-value">RX 6750 XT</div></div>
         </div>
-        <div class="spec-card glass">
+        <div class="spec-card glass reveal">
           <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="6" rx="1.5"/><path d="M7 9v6M11 9v6M15 9v6"/></svg></div>
           <div><div class="spec-label">RAM</div><div class="spec-value">32GB</div></div>
         </div>
-        <div class="spec-card glass">
+        <div class="spec-card glass reveal">
           <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="12" cy="12" r="3"/></svg></div>
           <div><div class="spec-label">Storage</div><div class="spec-value">1TB NVMe</div></div>
         </div>
-        <div class="spec-card glass">
+        <div class="spec-card glass reveal">
           <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg></div>
           <div><div class="spec-label">Monitor</div><div class="spec-value">AOC 27" 1440p 240Hz</div></div>
         </div>
-        <div class="spec-card glass">
+        <div class="spec-card glass reveal">
           <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></div>
           <div><div class="spec-label">OS</div><div class="spec-value"><a href="https://cachyos.org/" target="_blank" rel="noopener">CachyOS</a> + Win11</div></div>
         </div>
       </div>
 
-      <div class="hotbar reveal">
-        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M3 12c3-4 8-6 13-4 2 .8 3 2.3 3 4s-1 3.2-3 4c-5 2-10 0-13-4Z"/></svg><span class="label">fish shell</span></div>
-        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="M4.5 7.5 12 12l7.5-4.5M12 12v9"/></svg><span class="label">KubeJS</span></div>
-        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2-2 2.3-2.3Z"/></svg><span class="label">NeoForge</span></div>
-        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="10" r="2"/><path d="M6 8v8M6 12c0-3 4-4 10-4"/></svg><span class="label">Git</span></div>
-        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/></svg><span class="label">KDE Plasma</span></div>
-        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M12 2c3 2 5 6 5 10 0 2-1 4-2 5l-1-3-2 2-2-2-1 3c-1-1-2-3-2-5 0-4 2-8 5-10Z"/><circle cx="12" cy="10" r="1.4"/></svg><span class="label">Prism Launcher</span></div>
-        <div class="hotbar-slot glass"><svg viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5"/><path d="M20 9a8 8 0 0 0-14.9-3M4 15a8 8 0 0 0 14.9 3"/></svg><span class="label">GitHub Actions</span></div>
+      <div class="hotbar">
+        <div class="hotbar-slot glass reveal"><svg viewBox="0 0 24 24"><path d="M3 12c3-4 8-6 13-4 2 .8 3 2.3 3 4s-1 3.2-3 4c-5 2-10 0-13-4Z"/></svg><span class="label">fish shell</span></div>
+        <div class="hotbar-slot glass reveal"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="M4.5 7.5 12 12l7.5-4.5M12 12v9"/></svg><span class="label">KubeJS</span></div>
+        <div class="hotbar-slot glass reveal"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2-2 2.3-2.3Z"/></svg><span class="label">NeoForge</span></div>
+        <div class="hotbar-slot glass reveal"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="10" r="2"/><path d="M6 8v8M6 12c0-3 4-4 10-4"/></svg><span class="label">Git</span></div>
+        <div class="hotbar-slot glass reveal"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/></svg><span class="label">KDE Plasma</span></div>
+        <div class="hotbar-slot glass reveal"><svg viewBox="0 0 24 24"><path d="M12 2c3 2 5 6 5 10 0 2-1 4-2 5l-1-3-2 2-2-2-1 3c-1-1-2-3-2-5 0-4 2-8 5-10Z"/><circle cx="12" cy="10" r="1.4"/></svg><span class="label">Prism Launcher</span></div>
+        <div class="hotbar-slot glass reveal"><svg viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5"/><path d="M20 9a8 8 0 0 0-14.9-3M4 15a8 8 0 0 0 14.9 3"/></svg><span class="label">GitHub Actions</span></div>
       </div>
 
       <div class="rig-gallery reveal">
@@ -464,6 +481,24 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
   }, { threshold: 0.15 });
   reveals.forEach(el => rio.observe(el));
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) {
+    const blobEls = document.querySelectorAll('.blob');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY * 0.06;
+          blobEls.forEach((b, i) => {
+            b.style.marginTop = (y * (i + 1) * 0.4) + 'px';
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
 
   const audio = document.getElementById('siteAudio');
   const player = document.getElementById('player');
