@@ -76,10 +76,13 @@
     min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
     padding:60px 24px; position:relative;
     background:
-      radial-gradient(circle at 30% 20%, rgba(0,217,255,0.14), transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(0,217,170,0.11), transparent 50%),
-      radial-gradient(circle at 50% 100%, rgba(255,179,71,0.06), transparent 60%);
+      radial-gradient(circle at 30% 20%, rgba(0,217,255,0.22), transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(0,217,170,0.18), transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(255,179,71,0.1), transparent 60%);
   }
+  #advancements{background:radial-gradient(circle at 20% 0%, rgba(0,217,255,0.06), transparent 55%);}
+  #setup{background:radial-gradient(circle at 80% 20%, rgba(0,217,170,0.06), transparent 55%);}
+  #about{background:radial-gradient(circle at 30% 100%, rgba(255,179,71,0.05), transparent 55%);}
   .title-wrap{position:relative; text-align:center; margin-bottom:56px;}
   .game-title{
     font-family:var(--display); font-weight:700; font-size:clamp(42px,9vw,84px);
@@ -113,6 +116,14 @@
   .menu-btn.discord{background:rgba(88,101,242,0.14);}
   .menu-btn.discord:hover{background:rgba(88,101,242,0.22);}
   .menu-btn img{width:20px; height:20px; flex:none; object-fit:cover;}
+  .menu-btn{border-left:4px solid var(--accent, transparent);}
+  .menu-btn.acc-cyan{--accent:var(--cyan); background:rgba(0,217,255,0.07);}
+  .menu-btn.acc-cyan:hover{background:rgba(0,217,255,0.14);}
+  .menu-btn.acc-green{--accent:var(--green); background:rgba(0,217,170,0.07);}
+  .menu-btn.acc-green:hover{background:rgba(0,217,170,0.14);}
+  .menu-btn.acc-amber{--accent:var(--amber); background:rgba(255,179,71,0.07);}
+  .menu-btn.acc-amber:hover{background:rgba(255,179,71,0.14);}
+  .menu-btn .btn-icon{font-size:16px;}
 
   .corner-tag{
     position:absolute; font-family:var(--mono); font-size:10.5px; color:rgba(255,255,255,0.28);
@@ -126,11 +137,12 @@
 
   /* ADVANCEMENT TREE */
   .tree-canvas{padding:30px 20px;}
-  .tree-root{display:flex; align-items:center; gap:0; margin-bottom:64px;}
+  .tree-root{display:flex; align-items:flex-start; gap:0; margin-bottom:70px; flex-wrap:wrap;}
   .tree-root:last-child{margin-bottom:0;}
   .tree-connector{
     width:56px; height:3px; flex:none; position:relative;
     background:var(--bevel-lt); overflow:hidden;
+    margin-top:34px;
   }
   .tree-connector span{
     position:absolute; inset:0; background:var(--cyan); transform:scaleX(0); transform-origin:left;
@@ -160,9 +172,12 @@
   .frame-goal .node-frame img{border-radius:50%;}
   .frame-challenge .node-frame{
     background:var(--panel-2);
-    clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     border:2px solid var(--green);
   }
+  .frame-locked .node-frame{background:var(--panel-2); border:2px dashed var(--muted); opacity:.55;}
+  .frame-locked .node-label{color:var(--muted);}
+  .frame-locked .node-detail{opacity:.7;}
   .node-label{
     font-family:var(--display); font-weight:600; font-size:13px; text-align:center;
     margin-top:10px; max-width:110px;
@@ -171,14 +186,9 @@
   .frame-goal .node-label{color:var(--amber);}
   .frame-challenge .node-label{color:var(--green);}
 
+  .node{display:flex; flex-direction:column; align-items:center;}
   .node-detail{
-    position:absolute; top:calc(100% + 46px); left:50%; transform:translateX(-50%) translateY(-6px);
-    width:280px; padding:16px; z-index:20;
-    opacity:0; visibility:hidden; pointer-events:none;
-    transition:opacity .15s ease, transform .15s ease;
-  }
-  .node:hover .node-detail, .node:focus-within .node-detail{
-    opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); pointer-events:auto;
+    width:230px; margin-top:16px; padding:16px; text-align:left;
   }
   .node-detail-title{font-family:var(--display); font-weight:700; font-size:14.5px; margin-bottom:6px;}
   .node-detail p{color:var(--muted); font-size:13px; margin-bottom:10px;}
@@ -189,8 +199,7 @@
   .node-detail img.dl-badge{height:22px; margin-top:8px; display:block;}
 
   @media (max-width:640px){
-    .node-detail{position:static; transform:none; width:100%; margin-top:12px; opacity:1; visibility:visible; pointer-events:auto; box-shadow:none;}
-    .tree-root{flex-wrap:wrap;}
+    .node-detail{width:100%;}
     .node{width:100%; margin-bottom:20px;}
   }
 
@@ -297,7 +306,7 @@
   @media (max-width:640px){.player-track{display:none;}}
 
   /* FOOTER */
-  footer{padding:50px 0 60px;}
+  footer{padding:50px 0 150px;}
   .footer-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
   .footer-slots{display:flex; gap:10px;}
   .footer-slot{width:44px; height:44px; display:flex; align-items:center; justify-content:center; text-decoration:none; color:var(--muted);}
@@ -334,10 +343,10 @@
       <p class="title-sub">Federico — modpack developer, tool builder. Creator of NeoTech Reborn and Pack Commit.</p>
     </div>
     <div class="menu-list">
-      <a class="menu-btn bevel" href="#advancements">Advancements</a>
-      <a class="menu-btn bevel" href="#setup">My Setup</a>
-      <a class="menu-btn bevel" href="#favorite-game">Favorite Game</a>
-      <a class="menu-btn bevel" href="#about">About</a>
+      <a class="menu-btn bevel acc-cyan" href="#advancements"><span class="btn-icon">🏆</span>Advancements</a>
+      <a class="menu-btn bevel acc-green" href="#setup"><span class="btn-icon">🖥️</span>My Setup</a>
+      <a class="menu-btn bevel acc-amber" href="#favorite-game"><span class="btn-icon">📖</span>Favorite Game</a>
+      <a class="menu-btn bevel" href="#about"><span class="btn-icon">👤</span>About</a>
       <a class="menu-btn bevel discord" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">
         <img src="assets/server_logo.png" alt="">Hall of Modding
       </a>
@@ -350,7 +359,7 @@
 
       <div class="tree-canvas">
         <div class="tree-root">
-          <div class="node frame-challenge" tabindex="0">
+          <div class="node frame-challenge">
             <div class="node-frame"><img src="https://media.forgecdn.net/avatars/thumbnails/1135/584/256/256/638696980042288408.png" alt=""></div>
             <div class="node-label">NeoTech Reborn</div>
             <div class="node-detail bevel">
@@ -361,7 +370,7 @@
             </div>
           </div>
           <div class="tree-connector"><span></span></div>
-          <div class="node frame-task" tabindex="0">
+          <div class="node frame-task">
             <div class="node-frame"><span class="emoji">🐟</span></div>
             <div class="node-label">Pack Commit</div>
             <div class="node-detail bevel">
@@ -370,16 +379,37 @@
               <a class="node-detail-link" href="https://github.com/VaporeonScripts/pack-commit" target="_blank" rel="noopener">View on GitHub</a>
             </div>
           </div>
+          <div class="tree-connector"><span></span></div>
+          <div class="node frame-locked">
+            <div class="node-frame"><span class="emoji">❓</span></div>
+            <div class="node-label">???</div>
+            <div class="node-detail bevel">
+              <div class="node-detail-title">Locked</div>
+              <p>More advancements coming as the pack grows.</p>
+            </div>
+          </div>
         </div>
 
         <div class="tree-root">
-          <div class="node frame-goal" tabindex="0">
+          <div class="node frame-goal">
             <div class="node-frame"><span class="emoji">📖</span></div>
             <div class="node-label">Andy &amp; Leyley Translation</div>
             <div class="node-detail bevel">
               <div class="node-detail-title">Goal reached</div>
               <p>Part of the Italian translation team for The Coffin of Andy and Leyley, running grammar and orthography passes on the full script.</p>
               <a class="node-detail-link" href="https://steamcommunity.com/app/2378900/discussions/2/594022969417677218/" target="_blank" rel="noopener">Translation thread</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tree-root">
+          <div class="node frame-task">
+            <div class="node-frame"><img src="assets/server_logo.png" alt=""></div>
+            <div class="node-label">Hall of Modding</div>
+            <div class="node-detail bevel">
+              <div class="node-detail-title">Advancement made</div>
+              <p>A Discord community built around the pack — dev updates, changelogs, support, and a genuinely chill crowd.</p>
+              <a class="node-detail-link" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">Join the server</a>
             </div>
           </div>
         </div>
