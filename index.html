@@ -11,8 +11,8 @@
 <style>
   :root{
     --base:#000000;
-    --glass:rgba(255,255,255,0.055);
-    --glass-hover:rgba(255,255,255,0.09);
+    --glass:rgba(6,7,9,0.62);
+    --glass-hover:rgba(6,7,9,0.75);
     --glass-border:rgba(255,255,255,0.12);
     --cyan:#00D9FF;
     --amber:#FFB347;
@@ -39,12 +39,13 @@
   /* GRADIENT MESH BACKGROUND */
   .mesh{position:fixed; inset:0; z-index:-1; overflow:hidden; background:var(--base);}
   .blob{position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:screen; opacity:.55;}
-  .blob-cyan{width:52vw; height:52vw; background:var(--cyan); top:-15%; left:-10%; animation:float1 26s ease-in-out infinite;}
-  .blob-green{width:46vw; height:46vw; background:var(--green); top:30%; right:-15%; animation:float2 32s ease-in-out infinite;}
-  .blob-amber{width:40vw; height:40vw; background:var(--amber); bottom:-10%; left:20%; animation:float3 38s ease-in-out infinite;}
+  .blob-cyan{width:52vw; height:52vw; background:var(--cyan); top:-15%; left:-10%; animation:float1 26s ease-in-out infinite, huecycle 50s linear infinite;}
+  .blob-green{width:46vw; height:46vw; background:var(--green); top:30%; right:-15%; animation:float2 32s ease-in-out infinite, huecycle 62s linear infinite reverse;}
+  .blob-amber{width:40vw; height:40vw; background:var(--amber); bottom:-10%; left:20%; animation:float3 38s ease-in-out infinite, huecycle 70s linear infinite;}
   @keyframes float1{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(8%,10%) scale(1.15);}}
   @keyframes float2{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-10%,-6%) scale(0.9);}}
   @keyframes float3{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(6%,-8%) scale(1.1);}}
+  @keyframes huecycle{0%{filter:blur(90px) hue-rotate(0deg);} 100%{filter:blur(90px) hue-rotate(360deg);}}
 
   /* GLASS PRIMITIVE */
   .glass{
