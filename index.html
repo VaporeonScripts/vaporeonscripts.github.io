@@ -267,14 +267,6 @@
 <main id="top">
   <section class="hero">
     <div class="hero-tag glass"><span class="dot"></span>Actively building NeoTech Reborn</div>
-    <a class="hero-tag glass" id="spotifyChip" href="#" target="_blank" rel="noopener" style="display:none; margin-top:10px; text-decoration:none;">
-      <img id="spotifyArt" src="" alt="" style="width:18px; height:18px; border-radius:4px; margin-right:2px;">
-      <span id="spotifyLabel"></span>
-    </a>
-    <a class="hero-tag glass" id="spotifyChip" href="#" target="_blank" rel="noopener" style="display:none; margin-top:10px; text-decoration:none;">
-      <img id="spotifyArt" src="" alt="" style="width:18px; height:18px; border-radius:4px; margin-right:2px;">
-      <span id="spotifyLabel"></span>
-    </a>
     <h1>Federico builds modpacks and the tools that hold them together.</h1>
     <p>Solo developer on NeoTech Reborn. Off the pack, I write fish shell tooling to keep the whole thing from falling apart.</p>
     <div class="hero-ctas">
@@ -467,23 +459,6 @@
 </footer>
 
 <script>
-  async function updateSpotifyChip() {
-    try {
-      const res = await fetch('now-playing.json?_=' + Date.now());
-      if (!res.ok) return;
-      const data = await res.json();
-      const chip = document.getElementById('spotifyChip');
-      const art = document.getElementById('spotifyArt');
-      const label = document.getElementById('spotifyLabel');
-      art.src = data.album_art;
-      label.textContent = (data.is_playing ? '🎧 Listening to ' : '🎧 Last played ') + data.title + ' — ' + data.artist;
-      chip.href = data.url;
-      chip.style.display = 'inline-flex';
-    } catch (e) { /* file not published yet, or fetch blocked — chip just stays hidden */ }
-  }
-  updateSpotifyChip();
-  setInterval(updateSpotifyChip, 60000);
-
   const rio = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
