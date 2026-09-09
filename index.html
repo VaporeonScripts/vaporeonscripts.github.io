@@ -230,7 +230,7 @@
   .player-info{display:flex; flex-direction:column; gap:4px;}
   .player-track{font-family:var(--body); font-size:12px; font-weight:600; color:var(--text);}
   .player-bars{display:flex; align-items:flex-end; gap:2px; height:14px;}
-  .player-bars span{width:3px; border-radius:2px; background:linear-gradient(180deg, var(--cyan), var(--green)); height:3px; transition:height .08s ease;}
+  .player-bars span{width:3px; border-radius:2px; background:linear-gradient(180deg, var(--cyan), var(--green)); height:3px; transition:height .35s ease-out;}
   .volume-row{display:flex; align-items:center; gap:7px;}
   .mute-btn{background:none; border:none; cursor:pointer; padding:0; display:flex; color:var(--muted);}
   .mute-btn:hover{color:var(--cyan);}
@@ -499,6 +499,7 @@
   navToggle.addEventListener('click', () => mobileMenu.classList.toggle('open'));
   mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
+  const revealTimers = new WeakMap();
   const rio = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -508,8 +509,12 @@
           const siblings = Array.from(group.children);
           delay = siblings.indexOf(e.target) * 70;
         }
-        setTimeout(() => e.target.classList.add('in'), delay);
-        rio.unobserve(e.target);
+        clearTimeout(revealTimers.get(e.target));
+        const t = setTimeout(() => e.target.classList.add('in'), delay);
+        revealTimers.set(e.target, t);
+      } else {
+        clearTimeout(revealTimers.get(e.target));
+        e.target.classList.remove('in');
       }
     });
   }, { threshold: 0.15 });
