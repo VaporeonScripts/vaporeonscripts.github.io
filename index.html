@@ -503,7 +503,7 @@
   const rio = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       clearTimeout(revealTimers.get(e.target));
-      if (e.isIntersecting) {
+      if (e.intersectionRatio >= 0.15) {
         const group = e.target.closest('.cards-grid, .spec-grid, .hotbar');
         let delay = 0;
         if (group) {
@@ -512,12 +512,13 @@
         }
         const t = setTimeout(() => e.target.classList.add('in'), delay);
         revealTimers.set(e.target, t);
-      } else {
+      } else if (e.intersectionRatio === 0) {
         const t = setTimeout(() => e.target.classList.remove('in'), 150);
         revealTimers.set(e.target, t);
       }
+      /* between 0 and 0.15: dead zone, ignore to prevent flicker */
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  }, { threshold: [0, 0.15] });
   document.querySelectorAll('.reveal').forEach(el => rio.observe(el));
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
