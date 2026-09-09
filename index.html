@@ -397,7 +397,7 @@
             <span class="feature-chip">HTFSlide</span>
             <span class="feature-chip">Bulk Buy</span>
             <span class="feature-chip">ChumBucket</span>
-            <span class="feature-chip">Full HUD Recolor</span>
+            <span class="feature-chip">More Colours</span>
             <span class="feature-chip">MorePlayers (up to 32)</span>
             <span class="feature-chip" style="opacity:.6; border-style:dashed;">+ more</span>
           </div>
@@ -537,6 +537,9 @@
 </footer>
 
 <script>
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
   const navToggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   navToggle.addEventListener('click', () => mobileMenu.classList.toggle('open'));
