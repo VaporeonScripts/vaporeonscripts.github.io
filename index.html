@@ -162,6 +162,11 @@
   .card-banner-img{width:100%; height:130px; overflow:hidden;}
   .card-banner-img img{width:100%; height:100%; object-fit:cover; display:block;}
   .card-banner-content{padding:26px;}
+  .feature-chips{display:flex; flex-wrap:wrap; gap:8px; margin:20px 0;}
+  .feature-chip{
+    font-family:var(--body); font-size:12.5px; font-weight:500; color:var(--text);
+    background:var(--glass-hover); border:1px solid var(--glass-border); padding:7px 13px; border-radius:20px;
+  }
   .card-icon svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.6;}
   .icon-cyan{color:var(--cyan);} .icon-green{color:var(--green);} .icon-amber{color:var(--amber);}
   .card-titles{display:flex; flex-direction:column;}
@@ -371,15 +376,35 @@
           <a class="card-link icon-cyan" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">Join the server →</a>
         </div>
 
-        <div class="card glass reveal card-banner">
-          <div class="card-banner-img"><img src="assets/howtofish.png" alt="How to Fish"></div>
-          <div class="card-banner-content">
-            <div class="card-titles" style="margin-bottom:16px;">
-              <span class="card-title">Enhanced HowToFish</span>
-              <span class="card-badge badge-green">Modpack</span>
-            </div>
-            <p>A modpack for How To Fish blending QOL improvements with new gameplay mechanics — dynamic crosshair, boss HP/timer overlays, item stacking, sliding, bulk buy, and a full HUD recolor system.</p>
-            <a class="card-link icon-green" href="https://thunderstore.io/c/how-to-fish/p/Linux_Squad/Enhanced_HowToFish/" target="_blank" rel="noopener">View on Thunderstore →</a>
+        </div>
+    </div>
+  </section>
+
+  <section class="section" id="howtofish">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="section-eyebrow eyebrow-green">Modding</div>
+        <h2 class="section-title">Enhanced HowToFish</h2>
+      </div>
+      <div class="glass reveal" style="overflow:hidden;">
+        <img src="assets/howtofish.png" alt="How to Fish" style="width:100%; display:block;">
+        <div style="padding:32px;">
+          <p style="color:var(--muted); font-size:15px; max-width:640px;">A modpack for <em>How To Fish</em> blending quality-of-life improvements with new gameplay mechanics — sharper UI, extra utility, and a few systems the base game doesn't have.</p>
+          <div class="feature-chips">
+            <span class="feature-chip">Dynamic Crosshair</span>
+            <span class="feature-chip">Boss Timer &amp; HP</span>
+            <span class="feature-chip">Stackable Items</span>
+            <span class="feature-chip">HTFSlide</span>
+            <span class="feature-chip">Bulk Buy</span>
+            <span class="feature-chip">ChumBucket</span>
+            <span class="feature-chip">Full HUD Recolor</span>
+            <span class="feature-chip">MorePlayers (up to 32)</span>
+          </div>
+          <p style="color:var(--muted); font-size:14px;">24 required dependencies bundled together, 9.5K+ downloads on Thunderstore.</p>
+          <div class="hero-ctas" style="justify-content:flex-start; margin-top:22px;">
+            <a class="cta cta-primary" href="https://thunderstore.io/c/how-to-fish/p/Linux_Squad/Enhanced_HowToFish/" target="_blank" rel="noopener">View on Thunderstore</a>
+            <a class="cta cta-ghost" href="https://discord.gg/BNHgApHyW" target="_blank" rel="noopener">Modding Discord</a>
+            <a class="cta cta-ghost" href="https://ko-fi.com/kurotsuki_arch" target="_blank" rel="noopener">Support on Ko-fi</a>
           </div>
         </div>
       </div>
