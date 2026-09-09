@@ -502,6 +502,7 @@
   const revealTimers = new WeakMap();
   const rio = new IntersectionObserver((entries) => {
     entries.forEach(e => {
+      clearTimeout(revealTimers.get(e.target));
       if (e.isIntersecting) {
         const group = e.target.closest('.cards-grid, .spec-grid, .hotbar');
         let delay = 0;
@@ -509,15 +510,14 @@
           const siblings = Array.from(group.children);
           delay = siblings.indexOf(e.target) * 70;
         }
-        clearTimeout(revealTimers.get(e.target));
         const t = setTimeout(() => e.target.classList.add('in'), delay);
         revealTimers.set(e.target, t);
       } else {
-        clearTimeout(revealTimers.get(e.target));
-        e.target.classList.remove('in');
+        const t = setTimeout(() => e.target.classList.remove('in'), 150);
+        revealTimers.set(e.target, t);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('.reveal').forEach(el => rio.observe(el));
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
