@@ -95,6 +95,21 @@
     .nav-links{display:none;}
     .navbar{padding:8px 8px 8px 14px;}
   }
+  .nav-toggle{display:none; background:none; border:none; cursor:pointer; padding:8px; color:var(--text);}
+  .nav-toggle svg{width:18px; height:18px;}
+  @media (max-width:760px){
+    .nav-toggle{display:flex; align-items:center;}
+  }
+  .mobile-menu{
+    position:fixed; top:74px; left:50%; transform:translateX(-50%); z-index:79;
+    display:none; flex-direction:column; gap:4px; padding:10px; min-width:200px;
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{
+    font-family:var(--body); font-weight:500; font-size:14px; color:var(--text); text-decoration:none;
+    padding:10px 14px; border-radius:12px;
+  }
+  .mobile-menu a:hover{background:var(--glass-hover);}
 
   /* HERO */
   .hero{
@@ -220,11 +235,22 @@
   .mute-btn{background:none; border:none; cursor:pointer; padding:0; display:flex; color:var(--muted);}
   .mute-btn:hover{color:var(--cyan);}
   .mute-btn svg{width:14px; height:14px;}
-  .player-volume{-webkit-appearance:none; appearance:none; width:80px; height:3px; border-radius:2px; background:linear-gradient(to right, var(--cyan) 85%, rgba(255,255,255,0.15) 85%); cursor:pointer;}
-  .player-volume::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:11px; height:11px; border-radius:50%; background:var(--cyan); cursor:pointer;}
-  .player-volume::-moz-range-thumb{width:11px; height:11px; border-radius:50%; background:var(--cyan); cursor:pointer; border:none;}
-  .player.muted .player-volume::-webkit-slider-thumb{background:var(--muted);}
-  .player.muted .player-volume::-moz-range-thumb{background:var(--muted);}
+  .player-volume{-webkit-appearance:none; appearance:none; width:90px; height:4px; border-radius:2px; background:linear-gradient(to right, var(--cyan) 85%, rgba(255,255,255,0.15) 85%); cursor:pointer; transition:height .15s ease;}
+  .player-volume:hover{height:5px;}
+  .player-volume::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:14px; height:14px; border-radius:50%;
+    background:var(--cyan); cursor:pointer; box-shadow:0 0 8px rgba(0,217,255,0.6);
+    transition:transform .15s ease; border:2px solid rgba(0,0,0,0.4);
+  }
+  .player-volume::-webkit-slider-thumb:hover{transform:scale(1.2);}
+  .player-volume::-moz-range-thumb{
+    width:14px; height:14px; border-radius:50%; background:var(--cyan); cursor:pointer;
+    border:2px solid rgba(0,0,0,0.4); box-shadow:0 0 8px rgba(0,217,255,0.6);
+    transition:transform .15s ease;
+  }
+  .player-volume::-moz-range-thumb:hover{transform:scale(1.2);}
+  .player.muted .player-volume::-webkit-slider-thumb{background:var(--muted); box-shadow:none;}
+  .player.muted .player-volume::-moz-range-thumb{background:var(--muted); box-shadow:none;}
   .volume-pct{font-family:var(--body); font-size:10px; color:var(--muted); min-width:26px; text-align:right;}
   @media (max-width:640px){.player-track{display:none;}}
 
@@ -259,10 +285,19 @@
     <a href="#favorite-game">Favorite Game</a>
     <a href="#about">About</a>
   </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
   <a class="nav-discord" href="https://discord.gg/8Hz9qTjJaB" target="_blank" rel="noopener">
     <img src="assets/server_logo.png" alt="">Hall of Modding
   </a>
 </nav>
+<div class="mobile-menu glass" id="mobileMenu">
+  <a href="#advancements">Advancements</a>
+  <a href="#setup">My Setup</a>
+  <a href="#favorite-game">Favorite Game</a>
+  <a href="#about">About</a>
+</div>
 
 <main id="top">
   <section class="hero">
@@ -459,6 +494,11 @@
 </footer>
 
 <script>
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
   const rio = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -563,7 +603,10 @@
   }
   function renderBars() {
     requestAnimationFrame(renderBars);
-    if (!analyser || audio.paused) return;
+    if (!analyser || audio.paused) {
+      bars.forEach(bar => { bar.style.height = '3px'; });
+      return;
+    }
     analyser.getByteFrequencyData(dataArray);
     bars.forEach((bar, i) => {
       const idx = Math.floor((i / bars.length) * dataArray.length * 0.6) + 1;
