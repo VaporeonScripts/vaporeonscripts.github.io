@@ -13,6 +13,7 @@ Single self-contained `index.html` — no build step, no dependencies beyond Goo
   - Italian translation work on *The Coffin of Andy and Leyley*
 - **My Setup** — hardware/OS specs plus a small desktop rice showcase
 - **Favorite Game** — a dedicated banner section for *The Coffin of Andy and Leyley*
+- **Enhanced HowToFish** — a dedicated section for the *How To Fish* modpack, with feature chips and links to Thunderstore, the modding Discord, and Ko-fi
 - **About** — short bio
 - **Floating music player** — click-to-enter gate, volume control, real-time audio-reactive visualizer bars (Web Audio API)
 
@@ -25,6 +26,7 @@ Single self-contained `index.html` — no build step, no dependencies beyond Goo
 │   ├── wallpaper.png  # desktop screenshot
 │   ├── fastfetch.png  # system info screenshot
 │   ├── tcoaal.png       # The Coffin of Andy and Leyley cover art
+│   ├── howtofish.png    # Enhanced HowToFish banner image
 │   ├── server_logo.png # Hall of Modding Discord server icon
 │   ├── cover.png       # music player cover art
 │   └── theme.mp3        # music player track
