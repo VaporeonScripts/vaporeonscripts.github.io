@@ -1,0 +1,32 @@
+name: Update HowToFish stats
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch stats
+        run: |
+          RESPONSE=$(curl -sSf https://thunderstore.io/api/v1/package-metrics/Linux_Squad/Enhanced_HowToFish/)
+          echo "$RESPONSE" | jq -e '.downloads' > /dev/null
+          echo "$RESPONSE" | jq '{downloads, latest_version}' > htf-stats.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add htf-stats.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update HowToFish stats"
+            git push
+          fi
