@@ -162,6 +162,10 @@
   .card-banner-img{width:100%; height:130px; overflow:hidden;}
   .card-banner-img img{width:100%; height:100%; object-fit:cover; display:block;}
   .card-banner-content{padding:26px;}
+  .dl-badge{display:inline-flex; margin-top:10px; border-radius:8px; overflow:hidden; font-family:var(--body); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;}
+  .dl-badge[hidden]{display:none;}
+  .dl-badge-label{padding:9px 13px; background:#141517; color:var(--text);}
+  .dl-badge-value{padding:9px 13px; background:var(--green); color:#000;}
   .feature-chips{display:flex; flex-wrap:wrap; gap:8px; margin:20px 0;}
   .feature-chip{
     font-family:var(--body); font-size:12.5px; font-weight:500; color:var(--text);
@@ -416,7 +420,7 @@
             <span class="feature-chip" style="opacity:.6; border-style:dashed;">+ more</span>
           </div>
           <p style="color:var(--muted); font-size:14px;">Bundles all its required dependencies together, so it's a one-click install.</p>
-          <img src="https://img.shields.io/thunderstore/dt/Linux_Squad/Enhanced_HowToFish?style=for-the-badge&color=00D9AA&labelColor=141517&label=DOWNLOADS" alt="live download count" style="height:30px; display:block; margin-top:10px;">
+          <div class="dl-badge" id="htfBadge" hidden><span class="dl-badge-label">Downloads</span><span class="dl-badge-value" id="htfCount"></span></div>
           <div class="hero-ctas" style="justify-content:flex-start; margin-top:22px;">
             <a class="cta cta-primary" href="https://thunderstore.io/c/how-to-fish/p/Linux_Squad/Enhanced_HowToFish/" target="_blank" rel="noopener">View on Thunderstore</a>
             <a class="cta cta-ghost" href="https://discord.gg/BNHgApHyW" target="_blank" rel="noopener">Modding Discord</a>
@@ -554,6 +558,14 @@
 <script>
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.scrollTo(0, 0);
+
+  fetch('https://thunderstore.io/api/v1/package-metrics/Linux_Squad/Enhanced_HowToFish/')
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => {
+      document.getElementById('htfCount').textContent = d.downloads.toLocaleString('en-US');
+      document.getElementById('htfBadge').hidden = false;
+    })
+    .catch(() => {});
 
   const navToggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
