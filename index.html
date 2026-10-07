@@ -565,7 +565,7 @@
       document.getElementById('htfCount').textContent = d.downloads.toLocaleString('en-US');
       document.getElementById('htfBadge').hidden = false;
     })
-    .catch(() => {});
+    .catch(err => console.error('HTF badge failed:', err));
 
   const navToggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
