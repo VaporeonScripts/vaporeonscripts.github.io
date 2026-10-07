@@ -559,13 +559,13 @@
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.scrollTo(0, 0);
 
-  fetch('https://thunderstore.io/api/v1/package-metrics/Linux_Squad/Enhanced_HowToFish/')
+  fetch('htf-stats.json?_=' + Date.now())
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(d => {
       document.getElementById('htfCount').textContent = d.downloads.toLocaleString('en-US');
       document.getElementById('htfBadge').hidden = false;
     })
-    .catch(err => console.error('HTF badge failed:', err));
+    .catch(() => {});
 
   const navToggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
