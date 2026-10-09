@@ -17,7 +17,7 @@ jobs:
         run: |
           RESPONSE=$(curl -sSf https://thunderstore.io/api/v1/package-metrics/Linux_Squad/Enhanced_HowToFish/)
           echo "$RESPONSE" | jq -e '.downloads' > /dev/null
-          echo "$RESPONSE" | jq '{downloads, latest_version}' > htf-stats.json
+          echo "$RESPONSE" | jq '{downloads, rating_score, latest_version}' > htf-stats.json
 
       - name: Commit if changed
         run: |
